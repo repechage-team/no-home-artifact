@@ -14,8 +14,8 @@ services:
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - no-home-mysql-data:/var/lib/mysql
-      - ../Backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
-      - ../Backend/src/main/resources/data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+      - ../no-home-backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ../no-home-backend/src/main/resources/data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent"]
       interval: 10s
@@ -25,9 +25,9 @@ services:
 
   backend:
     build:
-      context: ../Backend
+      context: ../no-home-backend
     env_file:
-      - ../Backend/.env
+      - ../no-home-backend/.env
     environment:
       DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-no_home}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
       DB_USERNAME: ${MYSQL_USER:-no_home}
@@ -40,9 +40,9 @@ services:
 
   frontend:
     build:
-      context: ../Frontend
+      context: ../no-home-frontend
     env_file:
-      - ../Frontend/.env
+      - ../no-home-frontend/.env
     environment:
       VITE_API_PROXY_TARGET: http://backend:8080
     ports:
