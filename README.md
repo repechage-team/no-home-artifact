@@ -1,30 +1,21 @@
 # NoHome Artifact
 
-NoHome은 공공데이터 아파트 매매 실거래가 자료를 기반으로 사용자가 지역, 거래월, 가격 조건으로 매매 내역을 검색하고 Kakao Map에서 위치를 확인할 수 있는 서비스입니다.
+NoHome 전체 서비스를 실행하기 위한 Docker Compose와 프로젝트 문서를 관리하는 저장소입니다.
+
+NoHome은 공공데이터 아파트 매매 실거래가와 아파트 전월세 실거래가를 기반으로, 사용자가 지역/거래월/거래유형/가격 조건으로 실거래가를 검색하고 Kakao Map에서 위치를 확인할 수 있는 서비스입니다.
 
 ## 저장소 구성
 
-로컬에서는 세 저장소를 같은 상위 폴더 아래에 두는 구성을 기준으로 합니다.
+로컬에서는 다음 폴더명을 기준으로 둡니다.
 
 ```text
-NoHome/
-  Backend/    Spring Boot API 서버
-  Frontend/   Vue/Vite 화면
-  Artifact/   문서와 Docker Compose
+no-home/
+  no-home-backend/    Spring Boot API 서버
+  no-home-frontend/   Vue/Vite 화면
+  no-home-artifact/   문서와 Docker Compose
 ```
 
-예시:
-
-```powershell
-mkdir NoHome
-cd NoHome
-
-git clone <Backend-repository-url> Backend
-git clone <Frontend-repository-url> Frontend
-git clone <Artifact-repository-url> Artifact
-```
-
-`Artifact/docker-compose.yml`은 `../Backend`, `../Frontend` 경로를 기준으로 이미지를 빌드합니다. 폴더명이 다르면 compose 파일의 `build.context`, `env_file`, SQL mount 경로도 함께 맞춰야 합니다.
+`no-home-artifact/docker-compose.yml`은 `../no-home-backend`, `../no-home-frontend` 경로를 기준으로 이미지를 빌드합니다.
 
 ## 사전 준비
 
@@ -36,28 +27,34 @@ git clone <Artifact-repository-url> Artifact
 처음 실행하기 전에 각 저장소의 예시 환경 파일을 복사합니다.
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Backend
+cd C:\SSAFY\no-home\no-home-backend
 Copy-Item .env.example .env
 ```
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Frontend
+cd C:\SSAFY\no-home\no-home-frontend
 Copy-Item .env.example .env
 ```
 
-필요한 값은 각 `.env`에 직접 입력합니다.
+Backend `.env`의 주요 값:
 
 ```text
-Backend/.env
-  MYSQL_DATABASE=no_home
-  MYSQL_USER=no_home
-  MYSQL_PASSWORD=no_home_dev_password
-  MYSQL_ROOT_PASSWORD=root_dev_password
-  PUBLIC_DATA_SERVICE_KEY=
-  KAKAO_MAP_API_KEY=
+MYSQL_DATABASE=no_home
+MYSQL_USER=no_home
+MYSQL_PASSWORD=no_home_dev_password
+MYSQL_ROOT_PASSWORD=root_dev_password
+PUBLIC_DATA_SERVICE_KEY=
+PUBLIC_DATA_APT_RENT_SERVICE_KEY=
+KAKAO_MAP_API_KEY=
+```
 
-Frontend/.env
-  VITE_KAKAO_MAP_API_KEY=
+- `PUBLIC_DATA_SERVICE_KEY`: 국토교통부 아파트 매매 실거래가 API key
+- `PUBLIC_DATA_APT_RENT_SERVICE_KEY`: 국토교통부 아파트 전월세 실거래가 API key
+
+Frontend `.env`의 주요 값:
+
+```text
+VITE_KAKAO_MAP_API_KEY=
 ```
 
 ## Docker로 전체 실행
@@ -65,11 +62,11 @@ Frontend/.env
 Artifact 저장소에서 Backend, Frontend, MySQL을 함께 실행합니다.
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Artifact
-docker compose --env-file ..\Backend\.env up -d --build
+cd C:\SSAFY\no-home\no-home-artifact
+docker compose up -d --build
 ```
 
-실행 후 접속 주소:
+접속 주소:
 
 ```text
 Frontend: http://localhost:5173
@@ -80,97 +77,78 @@ Health:   http://localhost:8080/api/health
 상태 확인:
 
 ```powershell
-docker compose --env-file ..\Backend\.env ps
+docker compose ps
 ```
 
 로그 확인:
 
 ```powershell
-docker compose --env-file ..\Backend\.env logs -f backend
-docker compose --env-file ..\Backend\.env logs -f frontend
-docker compose --env-file ..\Backend\.env logs -f mysql
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f mysql
 ```
 
 종료:
 
 ```powershell
-docker compose --env-file ..\Backend\.env down
+docker compose down
 ```
 
-DB 데이터까지 삭제하려면 volume을 함께 삭제합니다. 이 명령은 기존 MySQL 데이터가 사라지므로 필요한 경우에만 사용합니다.
+DB 데이터까지 삭제하려면 volume을 함께 삭제합니다. 기존 MySQL 데이터가 사라지므로 필요한 경우에만 사용합니다.
 
 ```powershell
-docker compose --env-file ..\Backend\.env down -v
+docker compose down -v
 ```
 
 ## 코드 변경 반영
 
-Docker Desktop에서 컨테이너를 `Stop` 후 `Start`하는 것은 기존 이미지와 기존 컨테이너를 다시 실행하는 동작입니다. 로컬 코드 변경은 보통 반영되지 않습니다.
-
-코드 변경을 컨테이너에 반영하려면 이미지를 다시 빌드하고 컨테이너를 새 이미지로 재생성해야 합니다.
+Docker Desktop에서 컨테이너를 `Stop` 후 `Start`하는 것은 기존 이미지를 다시 실행하는 동작입니다. 로컬 코드 변경을 반영하려면 이미지를 다시 빌드해야 합니다.
 
 전체 재빌드:
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Artifact
-docker compose --env-file ..\Backend\.env up -d --build --force-recreate
+docker compose up -d --build --force-recreate
 ```
 
-Frontend만 바뀐 경우:
+Frontend만 변경:
 
 ```powershell
-docker compose --env-file ..\Backend\.env up -d --build --force-recreate frontend
+docker compose up -d --build --force-recreate frontend
 ```
 
-Backend만 바뀐 경우:
+Backend만 변경:
 
 ```powershell
-docker compose --env-file ..\Backend\.env up -d --build --force-recreate backend
+docker compose up -d --build --force-recreate backend
 ```
 
-Backend와 Frontend가 모두 바뀐 경우:
+## 검색 기능 요약
 
-```powershell
-docker compose --env-file ..\Backend\.env up -d --build --force-recreate backend frontend
-```
+브라우저 검색은 다음 거래 유형을 지원합니다.
 
-MySQL 데이터는 named volume(`no-home-mysql-data`)에 저장되므로 위 재빌드 명령만으로는 삭제되지 않습니다.
+| 거래 유형 | 의미 | 가격 필터 |
+| --- | --- | --- |
+| 매매 | 아파트 매매 실거래가 | 매매가 |
+| 전세 | 아파트 전월세 API 중 월세 0원 | 보증금 |
+| 월세 | 아파트 전월세 API 중 월세 0원 초과 | 보증금 + 월세 |
+| 전월세 | 전세 + 월세 | 가격 필터 없음 |
+| 전체 | 매매 + 전세 + 월세 | 가격 필터 없음 |
 
-## 로컬 개발 실행
-
-개발 중에는 MySQL만 Docker로 띄우고 Backend, Frontend를 로컬 프로세스로 실행할 수 있습니다.
-
-Backend:
-
-```powershell
-cd C:\SSAFY\workspace\NoHome\Backend
-docker compose up -d mysql
-.\mvnw.cmd spring-boot:run
-```
-
-Frontend:
-
-```powershell
-cd C:\SSAFY\workspace\NoHome\Frontend
-npm install
-npm run dev
-```
-
-Frontend 개발 서버는 `http://localhost:5173`에서 실행되며, `/api` 요청은 Vite proxy를 통해 Backend로 전달됩니다.
+`서울특별시`를 선택한 경우 시군구를 반드시 선택해야 검색합니다. 서울 전체 자동수집은 호출량이 커서 브라우저 검색 옵션에서 제공하지 않습니다.
 
 ## 테스트
 
 Backend:
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Backend
+cd C:\SSAFY\no-home\no-home-backend
 .\mvnw.cmd test
 ```
 
 Frontend:
 
 ```powershell
-cd C:\SSAFY\workspace\NoHome\Frontend
+cd C:\SSAFY\no-home\no-home-frontend
 npm.cmd test
 npm.cmd run build
 ```
@@ -178,18 +156,16 @@ npm.cmd run build
 ## 문서 목록
 
 ```text
-Artifact/
+no-home-artifact/
   README.md
-  AGENTS.md
-  HarnessGuide.md
-  SubAgentStrategy.md
-  pjt.pdf
-  아파트 매매 실거래가 자료 기술문서.pdf
   docs/
+    PRD.md
+    spec.md
+    plan.md
+    sprints/
 ```
 
-- `docs/PRD.md`: 제품 요구사항
-- `docs/spec.md`: 기술 명세
-- `docs/plan.md`: 개발 계획
-- `docs/sprints/`: 스프린트별 작업 기록
-- `아파트 매매 실거래가 자료 기술문서.pdf`: 공공데이터 API 기술 문서
+참고 API 문서:
+
+- `아파트 매매 실거래가 자료 기술문서.pdf`
+- `아파트 전월세 실거래가 자료 기술문서.pdf`
