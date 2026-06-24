@@ -1,0 +1,14 @@
+flowchart LR
+  PublicApi([공공데이터 API])
+  KakaoApi([Kakao Map API])
+  AiApi([AI Chat API])
+
+  subgraph NoHome["NoHome 서비스"]
+    SyncPublicData["공공데이터 동기화하기"]
+    ViewMap["지도에서 위치 확인하기"]
+    GetAiHelp["AI 기반 주택 검색 도움받기"]
+  end
+
+  SyncPublicData --- PublicApi
+  ViewMap --- KakaoApi
+  GetAiHelp --- AiApi

@@ -1,0 +1,16 @@
+flowchart LR
+  Guest([비회원])
+  Member([회원])
+
+  subgraph NoHome["NoHome - 계정 서비스"]
+    SignUp["회원가입하기"]
+    LogIn["로그인하기"]
+    ResetPassword["비밀번호 재설정하기"]
+    ManageAccount["내 계정 관리하기"]
+  end
+
+  Guest --- SignUp
+  Guest --- LogIn
+  Guest --- ResetPassword
+
+  Member --- ManageAccount

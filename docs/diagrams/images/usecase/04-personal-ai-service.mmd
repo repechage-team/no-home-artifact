@@ -1,0 +1,13 @@
+flowchart LR
+  Member([회원])
+  AiApi([AI Chat API])
+
+  subgraph NoHome["NoHome - 개인화 및 AI 검색 지원"]
+    ManageInterest["관심 지역 관리하기"]
+    GetAiHelp["AI 기반 주택 검색 도움받기"]
+  end
+
+  Member --- ManageInterest
+  Member --- GetAiHelp
+
+  GetAiHelp --- AiApi

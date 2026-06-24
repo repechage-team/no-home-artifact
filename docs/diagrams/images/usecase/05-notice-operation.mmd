@@ -1,0 +1,24 @@
+flowchart LR
+  User([사용자])
+  Guest([비회원])
+  Member([회원])
+  Admin([관리자])
+  PublicApi([공공데이터 API])
+
+  Guest --> User
+  Member --> User
+  Admin --> Member
+
+  subgraph NoHome["NoHome - 공지 및 운영 관리"]
+    ViewNotices["공지 확인하기"]
+    ManageNotices["공지 관리하기"]
+    ManageMembers["회원 관리하기"]
+    SyncPublicData["공공데이터 동기화하기"]
+  end
+
+  User --- ViewNotices
+  Admin --- ManageNotices
+  Admin --- ManageMembers
+  Admin --- SyncPublicData
+
+  SyncPublicData --- PublicApi

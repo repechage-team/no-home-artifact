@@ -1,0 +1,22 @@
+flowchart LR
+  User([사용자])
+  Guest([비회원])
+  Member([회원])
+  Admin([관리자])
+
+  Guest --> User
+  Member --> User
+  Admin --> Member
+
+  subgraph NoHome["NoHome 서비스"]
+    Housing["주택 정보 서비스"]
+    Account["계정 서비스"]
+    PersonalAi["개인화 및 AI 검색 지원"]
+    NoticeOperation["공지 및 운영 관리"]
+  end
+
+  User --- Housing
+  User --- Account
+  User --- NoticeOperation
+  Member --- PersonalAi
+  Admin --- NoticeOperation

@@ -1,0 +1,22 @@
+flowchart LR
+  User([사용자])
+  Guest([비회원])
+  Member([회원])
+  KakaoApi([Kakao Map API])
+
+  Guest --> User
+  Member --> User
+
+  subgraph NoHome["NoHome - 주택 정보 서비스"]
+    SearchDeals["실거래가 검색하기"]
+    SearchByPrice["가격 조건으로 검색하기"]
+    ViewHouseDetail["주택 상세 정보 확인하기"]
+    ViewMap["지도에서 위치 확인하기"]
+  end
+
+  User --- SearchDeals
+  User --- SearchByPrice
+  User --- ViewHouseDetail
+  User --- ViewMap
+
+  ViewMap --- KakaoApi
