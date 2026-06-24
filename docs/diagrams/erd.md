@@ -9,6 +9,8 @@
 
 ## 1. 실거래가 ERD
 
+![house erd](assets/house-erd.svg)
+
 ```mermaid
 erDiagram
   REGIONS ||--o{ HOUSES : contains
@@ -83,6 +85,8 @@ erDiagram
 
 ## 2. 회원 기능 ERD
 
+![member erd](assets/member-erd.svg)
+
 ```mermaid
 erDiagram
   MEMBERS ||--o| MEMBER_REFRESH_TOKENS : owns
@@ -142,6 +146,8 @@ erDiagram
 - 관심지역 설명에 필요한 `REGIONS` 컬럼만 축약 표시했다.
 
 ## 3. 공공데이터 적재 추적 ERD
+
+![publicdata import erd](assets/publicdata-import-erd.svg)
 
 ```mermaid
 erDiagram
