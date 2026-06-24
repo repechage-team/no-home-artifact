@@ -49,10 +49,31 @@
 ```
 Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis──▶  MySQL
                                           │
-              외부 연동 ◀───────────────┤── 국토부 공공데이터 API (매매/전월세)
-                                          ├── SSAFY GMS (OpenAI 프록시, LLM)
-                                          └── Kakao Map (지도/geocoding)
+                                          │  [외부 연동]
+                                          ├──▶ 국토부 공공데이터 API (매매/전월세)
+                                          ├──▶ SSAFY GMS (OpenAI 프록시, LLM)
+                                          └──▶ Kakao Map (지도/geocoding)
 ```
+
+<details>
+<summary>📐 Mermaid 버전 (펼치기)</summary>
+
+```mermaid
+flowchart LR
+    FE["Vue 3 SPA"] -->|"/api (Vite proxy)"| BE["Spring Boot<br/>REST API"]
+    BE -->|MyBatis| DB[("MySQL")]
+    BE --> PD["국토부 공공데이터 API<br/>(매매/전월세)"]
+    BE --> GMS["SSAFY GMS<br/>(OpenAI 프록시, LLM)"]
+    BE --> KK["Kakao Map<br/>(지도/geocoding)"]
+
+    subgraph EXT["외부 연동"]
+        PD
+        GMS
+        KK
+    end
+```
+
+</details>
 
 > 패키지·클래스 구조는 [클래스 다이어그램](../diagrams/class-diagrams.md)(backend-packages, house-search, member-auth, ai-chatbot, common-infra, publicdata-import, notice-interest) 참조.
 
