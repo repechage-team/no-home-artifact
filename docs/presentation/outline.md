@@ -51,7 +51,7 @@
 - 도입 동기: 진입장벽(API·필터 조작)을 자연어로 완전히 제거
 - 목표: ① 질문 모드(데이터 요약 답변) ② 에이전트 모드(필터·검색·화면 자동 조작)
 - 기술 기반: Spring AI 1.1.2 + gpt-4o-mini (SSAFY GMS)
-- 단계: Phase1 질문모드 → Phase2 에이전트 MVP → Phase3 액션/필터 확장 (2026-06-21~23)
+- 단계: 질문모드 → 에이전트 MVP → 액션/필터 확장 → **혼합형 재설계(단일 `/assistant`)·단기 대화기억** (2026-06-21~24)
 - **시각자료**: 챗봇 대화 → 화면 변화 전후
 
 ---
@@ -109,19 +109,22 @@
 - 가입/조회/수정/물리삭제/로그인/로그아웃
 - BCrypt 해싱, JWT(HS256) access·refresh, HttpOnly·Secure 쿠키, refresh 블랙리스트
 - 운영환경 fail-closed 보안 검증
+- **관리자 권한 분리**: `/api/members/search`는 관리자(`notice.admin-emails`)만, 일반회원 403(`MemberErrorCode.FORBIDDEN`)
 - **시각자료**: 로그인→쿠키→보호 API 시퀀스
 
 ### 4-4. 추가기능 ③ AI 어시스턴트 — 구현 ⭐⭐
-- 질문 모드 vs 에이전트 모드 구조 비교표
-- 액션 7종(search/setFilters/paginate/selectItem/mapFocus/reset/clarify) + 필터 9종
-- MVP(액션4·필터5) → Phase2(액션+3·필터+4) 진화
-- **시각자료**: 모드 비교 + 액션/필터 목록
+- **단일 엔드포인트 `POST /api/ai/assistant`** — LLM이 tool calling으로 질문/조작을 분기 (레거시 `/chat`·`/agent` 모드토글 제거, breaking change로 통합)
+- 응답 계약 `AssistantResponse { type: answer|command, answer, command, notice }`
+- 액션 6종(applyFiltersAndSearch/setFilters/paginate/selectItem/mapFocus/reset) + clarify 가드 + 필터 9종
+- 진화: 질문모드(Phase1) → 에이전트 MVP(액션4·필터5) → Phase2 확장(액션·필터+) → **혼합형 재설계(단일화)·단기기억 도입**
+- **시각자료**: 단일 엔드포인트 분기 + 액션/필터 목록
 
 ### 4-5. 검증 현황 (수치) ⭐
 - **메시지**: 테스트로 품질을 증명
-- 백엔드 116건 + 프론트 44건 = **160건 그린**, E2E 9/9, 사용자 시나리오 14개 검증
+- 단위/통합 **백엔드 177건 + 프론트 51건 = 228건 그린** (Failures/Errors 0), E2E·브라우저 시나리오 검증
+  - <!-- 출처: 2026-06-24 최신 master 실측. backend `./mvnw.cmd test` surefire 36클래스 177건 / frontend `npm test` 51건 -->
 - Sprint별 빌드·테스트·라이브 검증 후 Reviewer Pass
-- **시각자료**: 테스트 수 추이(78→105→113→116), 시나리오 체크리스트
+- **시각자료**: 테스트 수 추이(기능 확장과 함께 증가), 시나리오 체크리스트
 
 ---
 
@@ -164,32 +167,48 @@
 
 ## 섹션 7. 적용 패턴 및 핵심 알고리즘 ⭐⭐(기술 깊이)
 
-### 7-1. AI: Tool Calling + returnDirect 패턴
+### 7-1. AI: Tool Calling + returnDirect 패턴 (구현 완료)
+- 단일 `/api/ai/assistant`에서 LLM이 tool calling으로 분기 (분리형 → 혼합형 재설계)
 - LLM에 2종 도구 부여:
-  - 데이터 조회 도구 `searchSeoulAptDeals` (returnDirect=false → LLM 텍스트 답변)
-  - 페이지 액션 도구 6종 (returnDirect=true → 구조화 명령 AgentCommand 직접 반환)
-- "아무 도구도 안 부름"을 1급 선택지로 둬 의도 오분류 완화
+  - 데이터 조회 도구 `searchSeoulAptDeals` (returnDirect=false → LLM 텍스트 답변, finishReason=STOP)
+  - 페이지 액션 도구 6종 (returnDirect=true → 구조화 명령 AgentCommand 직접 반환, finishReason=returnDirect로 결정적 식별)
+- "아무 도구도 안 부름"을 1급 선택지로 둬 의도 오분류(불만·모호 → 억지 action) 구조적 완화
+- Phase 0 PoC로 Spring AI 1.1.2 returnDirect 실거동 실측 → A안 확정 후 정식 구현
 - **시각자료**: 발화→모델판단→도구분기 다이어그램
 
 ### 7-2. AI: Capability-driven Agent
 - 단일 출처(filterSchema) + 프론트 최종 강제
 - 프론트가 capabilities + currentFilters 동봉 → LLM은 allow-list 힌트로만 사용 → 프론트가 인식 키만 적용, 미인식 키 drop + 사후 안내
-- 효과: 메인 필터 추가 시 한 곳만 수정해도 에이전트 자동 적응 (capability drift 차단)
-- 안전장치: 휘발성 대화기억(개인정보 미저장), 분당 10회·500자 제한, 서울/거래월 가드
+- 효과: 메인 필터 추가(전월세) 시 filterSchema 한 곳만 수정해도 에이전트 자동 적응 (capability drift 차단)
+- 폼↔filterSchema 동기화 테스트(`emptyFilters()` 키 ⊆ `filterSchema`)로 drift 재발 차단
+- 안전장치: 휘발성 대화기억(개인정보 미저장), 분당 10회·500자 제한, **거래월은 LLM이 아닌 서버 결정적 가드**(dealYmdError/AgentCommandGuards)
 - **시각자료**: 요청-응답 시퀀스 (ai-flow-diagram)
 
-### 7-3. 데이터: 자동 임포트 & 멱등 적재
-- 검색 → DB coverage 판단 → 부족분만 공공데이터 호출 → XML 파싱 → `api_row_hash` 중복제거 → 적재 → 재조회
-- 완료 batch는 import_batches 이력으로 skip (멱등성)
-- 거래유형 매핑: 월세 0원=전세 / 초과=월세
-- resultCode 성공 화이트리스트 `{"00","000"}`, 응답코드 03=빈 결과(정상)
-- **시각자료**: 데이터 파이프라인 플로우 (data-pipeline-diagram)
+### 7-3. AI: 단기 대화기억 + 저장소 선택 근거 ⭐(기술 의사결정)
+- 멀티턴 맥락: `MessageWindowChatMemory`(InMemory, window 10, SystemMessage 보존) + `MessageChatMemoryAdvisor`를 중앙 ChatClient에 부착
+- 대화 키 `conversationId = memberId:<세션 UUID>` — 사용자 격리 + 세션 분리. 원문은 백엔드 JVM 힙에만, 브라우저엔 키(UUID)만
+- **저장소 트레이드오프 비교**: InMemory(채택) vs localStorage vs RDB vs Redis
+  - InMemory 채택 이유: 의존성 0·최속·원문 비영속(프라이버시), "닫으면 초기화" 요구 부합 / 한계: 단일 인스턴스·재기동 휘발
+  - 전환 시점: 스케일아웃 시 Redis+TTL, 영구보존 요구 시 RDB (ChatMemoryRepository 빈 1곳 교체로 저비용 전환)
+- 멀티턴 검증: "마포구 시세" → "방금 그 지역?" → 맥락 응답 / 세션 격리·종료 초기화 확인
+- **시각자료**: 저장 레이어 다이어그램 + 4안 비교표
 
-### 7-4. 보안·인코딩 패턴
-- 인증: JWT HS256 + BCrypt + fail-closed(운영 secret 검증)
+### 7-4. 데이터: DB 우선 + 라이브 검색 성능 개선 ⭐
+- 기본: 검색 → DB coverage 판단 → 부족분만 공공데이터 호출 → XML 파싱 → `api_row_hash` 중복제거 → 적재 → 재조회 (완료 batch는 import 이력으로 skip, 멱등)
+- **성능 개선(미캐시 첫 조회 17초 문제)**:
+  - 응답 경로/저장 경로 분리 → **API 응답 우선 + DB 백그라운드 batch 저장**
+  - row-by-row(거래당 지역·아파트 upsert+select) → **batch upsert + INSERT IGNORE**로 DB 왕복 대폭 감소
+  - 공공 API `numOfRows` 100 → 1000 (1,532건: 16페이지 → 2페이지)
+  - 라이브 결과 렌더 키: `resultKey → apiRowHash → dealId` 폴백
+- 거래유형 매핑: 월세 0원=전세 / 초과=월세, resultCode 성공 `{"00","000"}`, 응답코드 03=빈 결과(정상)
+- **시각자료**: 개선 전/후 파이프라인 비교 (data-pipeline-diagram)
+
+### 7-5. 보안·인코딩 패턴
+- 인증: JWT HS256 + BCrypt + fail-closed(운영 secret 검증), `/members/search` 관리자 권한 분리
 - 지역 매핑: SeoulLawdCodeResolver(서울 25개 자치구) + 법정동 catalog 머지
 - 인코딩: mojibake 복구(SET NAMES utf8mb4, DB 읽기 시 보정)
-- **시각자료**: 핵심 패턴 카드 4종
+- GMS 키 부재 시 graceful: AI만 503, 나머지 정상 기동(EnvironmentPostProcessor)
+- **시각자료**: 핵심 패턴 카드
 
 ---
 
@@ -207,11 +226,12 @@
 ## 섹션 9. 개발 후기 — 팀 사진, 개인별 회고
 
 ### 9-1. 트러블슈팅 회고 ⭐(설득력)
-- 실제 문제 3~4선 (문제→원인→해결):
+- 실제 문제 4~5선 (문제→원인→해결):
   1. 공공데이터 페이지네이션 누락(142건 중 10건) → 전체 페이지 적재
   2. resultCode "000" 오분류 → 성공 화이트리스트 보정(실측 근거)
-  3. Kakao 지도 사라짐(Vue 리렌더가 비-Vue DOM 제거) → 지도 상태 reactive 밖으로
-  4. AI 인코딩 환각(mojibake 입력) → seed 더블 인코딩 수정
+  3. **미캐시 첫 조회 17초 지연** → 응답/저장 경로 분리(응답 우선 + 백그라운드 batch), numOfRows 1000
+  4. Kakao 지도 사라짐(Vue 리렌더가 비-Vue DOM 제거) → 지도 상태 reactive 밖으로
+  5. AI 인코딩 환각(mojibake 입력) → seed 더블 인코딩 수정
 - **시각자료**: 문제→원인→해결 3컬럼
 
 ### 9-2. 팀 회고 & 사진
@@ -237,18 +257,19 @@
 | 4 개발결과 | 4-1~4-5 | 2.5분 |
 | 5 환경·구조도 | 5-1~5-2 | 1분 |
 | 6 화면흐름·시연 | 6-1~6-2 | 2분 |
-| 7 패턴·알고리즘 | 7-1~7-4 | 2분 |
+| 7 패턴·알고리즘 | 7-1~7-5 | 2.5분 |
 | 8 기대효과 | 8-1 | 0.5분 |
 | 9 개발후기 | 9-1~9-3 | 1분 |
 
 > 시간 압박 시 축소: 3(시장분석 1장)·5-2(스택)·7(알고리즘 2개) → 최소 압축
-> 강조 확대: 7-1/7-2(AI 패턴)·4-4(AI 구현)·6-2(시연)
+> 강조 확대: 7-1/7-2/7-3(AI 패턴·단기기억)·4-4(AI 구현)·6-2(시연)
 
 ## 제작 시 필요한 시각자료 (체크리스트)
 - [ ] 아키텍처 다이어그램 (5-1)
-- [ ] 데이터 파이프라인 플로우 (7-3)
+- [ ] 데이터 파이프라인 개선 전/후 플로우 (7-4)
 - [ ] AI 요청-응답 시퀀스 + Tool Calling 분기 (7-1, 7-2)
+- [ ] 단기기억 저장 레이어 + 저장소 4안 비교표 (7-3)
 - [ ] 마일스톤 × Sprint 타임라인 (2-1)
 - [ ] 경쟁사 비교 매트릭스 (3-1) — TODO 데이터
 - [ ] 핵심 화면 스크린샷: 검색+지도 / 챗봇 대화 전후 / 회원 화면
-- [ ] 테스트 수 추이 차트 (4-5)
+- [ ] 테스트 수 추이 차트 (4-5, 최신 BE 177/FE 51)
