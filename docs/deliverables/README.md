@@ -8,6 +8,7 @@
 | --- | --- |
 | [requirements-spec.md](requirements-spec.md) | 요구사항 명세서(SRS) — 개요·시스템·기능(필수+추가)·비기능·화면·API·데이터·외부I/F |
 | [wbs-gantt.md](wbs-gantt.md) | WBS 계층 표 + Mermaid 간트(담당자 스윔레인) |
+| [ai-usage-report.md](ai-usage-report.md) | AI 사용 보고서 — 기능·재설계 의사결정·프롬프트·Tool calling·운영 정책 |
 | `no-home-deliverables.xlsx` | 통합 Excel 4시트: ①요구사항명세 ②WBS ③간트(담당자 색 막대) ④담당·일정 |
 
 ## 관련 자료
