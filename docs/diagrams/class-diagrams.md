@@ -10,6 +10,8 @@
 
 ## 1. 백엔드 패키지 개요
 
+![backend packages](assets/backend-packages.svg)
+
 ```mermaid
 classDiagram
 direction LR
@@ -62,6 +64,8 @@ common --> member : auth interceptor config
 - DTO, Mapper, 예외 클래스는 이 개요 그림에서 생략했다.
 
 ## 2. AI 챗봇 클래스 다이어그램
+
+![ai chatbot class](assets/ai-chatbot-class.svg)
 
 ```mermaid
 classDiagram
@@ -158,6 +162,8 @@ AssistantResponse --> AgentCommand : contains
 
 ## 3. 주택 검색 클래스 다이어그램
 
+![house search class](assets/house-search-class.svg)
+
 ```mermaid
 classDiagram
 direction LR
@@ -245,6 +251,8 @@ HouseMapper --> HouseSearchCondition : accepts
 
 ## 4. 공공데이터 적재 클래스 다이어그램
 
+![publicdata import class](assets/publicdata-import-class.svg)
+
 ```mermaid
 classDiagram
 direction LR
@@ -329,6 +337,8 @@ PublicDataAptRentClient --> AptRentApiResponse : returns
 - API item record, id mapping record, 예외 세부 사유 enum은 제외했다.
 
 ## 5. 회원과 인증 클래스 다이어그램
+
+![member auth class](assets/member-auth-class.svg)
 
 ```mermaid
 classDiagram
@@ -425,6 +435,8 @@ MemberController --> MemberUpdateRequest : accepts
 
 ## 6. 공지와 관심지역 클래스 다이어그램
 
+![notice interest class](assets/notice-interest-class.svg)
+
 ```mermaid
 classDiagram
 direction LR
@@ -493,6 +505,8 @@ InterestRegionService --> InterestRegionResponse : returns
 - 예외 클래스와 에러코드 enum은 제외했다.
 
 ## 7. 공통 인프라 클래스 다이어그램
+
+![common infra class](assets/common-infra-class.svg)
 
 ```mermaid
 classDiagram
