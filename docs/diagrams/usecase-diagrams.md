@@ -11,6 +11,11 @@
 
 ## 1. 전체 Use Case 개요
 
+![전체 Use Case 개요](./images/usecase/01-overview.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
+
 ```mermaid
 flowchart LR
   User([사용자])
@@ -36,6 +41,8 @@ flowchart LR
   Admin --- NoticeOperation
 ```
 
+</details>
+
 읽는 법:
 
 - `사용자`는 비회원과 회원의 공통 상위 액터다.
@@ -48,6 +55,11 @@ flowchart LR
 - 세부 CRUD는 제출 가독성을 위해 `관리하기` 단위로 묶었다.
 
 ## 2. 주택 정보 서비스 Use Case
+
+![주택 정보 서비스 Use Case](./images/usecase/02-house-service.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
 
 ```mermaid
 flowchart LR
@@ -74,6 +86,8 @@ flowchart LR
   ViewMap --- KakaoApi
 ```
 
+</details>
+
 읽는 법:
 
 - 비회원과 회원 모두 주택 실거래가를 검색하고 상세 정보를 확인할 수 있다.
@@ -85,6 +99,11 @@ flowchart LR
 - 검색 파라미터 정규화, 페이징, 주소 변환 상태, 마커 렌더링 세부 로직은 제외했다.
 
 ## 3. 계정 서비스 Use Case
+
+![계정 서비스 Use Case](./images/usecase/03-account-service.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
 
 ```mermaid
 flowchart LR
@@ -105,6 +124,8 @@ flowchart LR
   Member --- ManageAccount
 ```
 
+</details>
+
 읽는 법:
 
 - 가입 전 사용자는 회원가입, 로그인, 비밀번호 재설정을 수행한다.
@@ -116,6 +137,11 @@ flowchart LR
 - 토큰 발급, 쿠키 저장, 세션 확인, 인증 인터셉터는 내부 인증 처리이므로 제외했다.
 
 ## 4. 개인화 및 AI 검색 지원 Use Case
+
+![개인화 및 AI 검색 지원 Use Case](./images/usecase/04-personal-ai-service.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
 
 ```mermaid
 flowchart LR
@@ -133,6 +159,8 @@ flowchart LR
   GetAiHelp --- AiApi
 ```
 
+</details>
+
 읽는 법:
 
 - 관심 지역 기능과 AI 검색 지원은 로그인한 회원의 개인화 기능이다.
@@ -144,6 +172,11 @@ flowchart LR
 - AI tool calling, rate limit, conversation memory, page action command 같은 내부 동작은 제외했다.
 
 ## 5. 공지 및 운영 관리 Use Case
+
+![공지 및 운영 관리 Use Case](./images/usecase/05-notice-operation.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
 
 ```mermaid
 flowchart LR
@@ -172,6 +205,8 @@ flowchart LR
   SyncPublicData --- PublicApi
 ```
 
+</details>
+
 읽는 법:
 
 - 공지 확인은 비회원과 회원 모두 가능한 사용자 기능이다.
@@ -185,6 +220,11 @@ flowchart LR
 - 공공데이터 XML 파싱, 중복 처리, 저장 로직은 내부 구현이므로 제외했다.
 
 ## 6. 외부 시스템 연동 Use Case
+
+![외부 시스템 연동 Use Case](./images/usecase/06-external-systems.png)
+
+<details>
+<summary>Mermaid 원본 보기</summary>
 
 ```mermaid
 flowchart LR
@@ -202,6 +242,8 @@ flowchart LR
   ViewMap --- KakaoApi
   GetAiHelp --- AiApi
 ```
+
+</details>
 
 읽는 법:
 
