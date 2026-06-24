@@ -11,6 +11,9 @@
 
 ![house erd](assets/house-erd.svg)
 
+<details>
+<summary>Mermaid source</summary>
+
 ```mermaid
 erDiagram
   REGIONS ||--o{ HOUSES : contains
@@ -74,6 +77,8 @@ erDiagram
   }
 ```
 
+</details>
+
 읽는 법:
 
 - `regions -> houses -> house_deals`가 실거래가 검색의 핵심 관계다.
@@ -86,6 +91,9 @@ erDiagram
 ## 2. 회원 기능 ERD
 
 ![member erd](assets/member-erd.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 erDiagram
@@ -136,6 +144,8 @@ erDiagram
   }
 ```
 
+</details>
+
 읽는 법:
 
 - 회원은 refresh token, 공지, 관심지역의 기준 엔티티다.
@@ -148,6 +158,9 @@ erDiagram
 ## 3. 공공데이터 적재 추적 ERD
 
 ![publicdata import erd](assets/publicdata-import-erd.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 erDiagram
@@ -167,6 +180,8 @@ erDiagram
     DATETIME completed_at
   }
 ```
+
+</details>
 
 읽는 법:
 
