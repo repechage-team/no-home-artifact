@@ -10,6 +10,10 @@
 | [wbs-gantt.md](wbs-gantt.md) | WBS 계층 표 + Mermaid 간트(담당자 스윔레인) |
 | `no-home-deliverables.xlsx` | 통합 Excel 4시트: ①요구사항명세 ②WBS ③간트(담당자 색 막대) ④담당·일정 |
 
+## 관련 자료
+- 시스템 다이어그램: [클래스](../diagrams/class-diagrams.md) · [ERD](../diagrams/erd.md) · [유스케이스](../diagrams/usecase-diagrams.md) — 본 명세서의 데이터·기능·액터 정의와 정합
+- 발표자료: [presentation/](../presentation/README.md)
+
 ## 핵심 기준
 
 - **일정**: git 커밋 실측 **2026-06-12 ~ 06-24** (문서 Sprint 표기 5/29~6/14는 참조로 병기)

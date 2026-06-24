@@ -14,8 +14,16 @@
 
 ### 1.2 범위
 - **필수**: 실거래가 수집·검색, 회원 CRUD, 로그인/로그아웃, 검색결과 지도 표시
-- **추가**: AI 어시스턴트(질문/에이전트), 전월세 검색, 관심지역, 회원검색 관리자 권한, 비밀번호 찾기, 단기 대화기억
+- **추가**: AI 어시스턴트(질문/에이전트), 전월세 검색, 관심지역, 공지사항, 회원검색 관리자 권한, 비밀번호 찾기, 단기 대화기억
 - **제외(현 범위 밖)**: 서울 외 지역, 주변 상권/환경 지도, 게시판, 뉴스 크롤링
+
+### 1.5 액터 (Use Case 기준)
+| 액터 | 설명 |
+| --- | --- |
+| 비회원 | 가입 전 사용자. 실거래가 검색·지도·공지 조회 가능 |
+| 회원 | 로그인 사용자. 비회원 기능 + 내 계정·관심지역·AI 검색 |
+| 관리자 | 회원 중 운영 권한자(`notice.admin-emails`). 공지·회원·공공데이터 운영 |
+| 외부 시스템 | 공공데이터 API · Kakao Map API · AI Chat(GMS) — usecase 보조 |
 
 ### 1.3 용어 정의
 | 용어 | 의미 |
@@ -30,6 +38,7 @@
 
 ### 1.4 참조 문서
 - 제품 요구: `docs/PRD.md` / 기술 스펙: `docs/spec.md` / 로드맵: `docs/plan.md`
+- 다이어그램: [유스케이스](../diagrams/usecase-diagrams.md) · [클래스](../diagrams/class-diagrams.md) · [ERD](../diagrams/erd.md)
 - 공공데이터: `아파트 매매 실거래가 자료 기술문서.pdf`, `아파트 전월세 실거래가 자료 기술문서.pdf`
 
 ---
@@ -44,6 +53,8 @@ Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis
                                           ├── SSAFY GMS (OpenAI 프록시, LLM)
                                           └── Kakao Map (지도/geocoding)
 ```
+
+> 패키지·클래스 구조는 [클래스 다이어그램](../diagrams/class-diagrams.md)(backend-packages, house-search, member-auth, ai-chatbot, common-infra, publicdata-import, notice-interest) 참조.
 
 ### 2.2 기술 스택
 | 계층 | 스택 |
@@ -90,6 +101,7 @@ Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis
 | F-INT | 관심 지역 | 회원이 관심 지역 등록·관리 | 지역 → 관심목록 | S | 효 | 회원-지역 연결 저장·조회 |
 | F-ADM | 회원검색 관리자권한 | `/members/search`를 관리자만 허용 | 키워드 → (관리자)결과 | S | 효 | 일반회원 403, 관리자만 검색 |
 | F-PWD | 비밀번호 찾기 | 비밀번호 재설정 | 식별정보 → 재설정 | S | 효 | 비밀번호 재설정 처리 |
+| F711 | 공지사항 | 공지 조회(전체)·관리(관리자 작성/수정/삭제) | 공지 → 목록/상세 | S | 효 | 비회원 조회, 관리자만 CRUD |
 
 ### 3.3 검색 상세 (dealMode 별 필터/정렬)
 | dealMode | 의미 | 가격 필터 | 가격 정렬 |
@@ -132,7 +144,10 @@ Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis
 | 검색 결과 목록 | 결과 카드(아파트명·주소·금액·면적·층·거래일), 거래유형 배지, 페이지네이션 | Founder pink 강조 |
 | 지도(우) | Kakao Map, 결과 마커, 선택 포커싱, 지도 상태 안내 | 페이지 단위 마커 갱신 |
 | 회원 패널 | 로그인/회원가입/내 정보(조회·수정·삭제)/비밀번호 찾기/관심지역 | credentials: include |
+| 공지사항 | 공지 목록·상세(전체 조회), 작성·수정·삭제(관리자) | F711 |
 | AI 챗봇 위젯(우하단) | FAB+패널, 대화 버블, 진행 표시, 드래그 리사이즈 | 단일 /assistant 호출 |
+
+> 사용자 목표(액터별)는 [유스케이스 다이어그램](../diagrams/usecase-diagrams.md)의 5개 서비스(주택정보·계정·개인화AI·공지운영·외부연동) 참조.
 
 ---
 
@@ -154,25 +169,31 @@ Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis
 | PUT | /api/members/me | O | 내 정보 수정 | 효 |
 | DELETE | /api/members/me | O | 회원 물리 삭제 | 효 |
 | GET | /api/members/search | O(관리자) | 회원 검색(관리자 전용) | 효 |
+| GET·POST·DELETE | /api/interest-regions | O | 관심지역 목록·등록·삭제(/{id}) | 효 |
+| GET·POST·PUT·DELETE | /api/notices | -(조회)/O(관리자) | 공지 목록·상세·작성·수정·삭제 | 효 |
 | POST | /api/ai/assistant | O | AI 어시스턴트(질문/조작 분기) | 이 |
 
-> 관심지역 관련 엔드포인트는 `codex/f711-notice-interest-regions`(PR #26) 구현. 정확한 경로는 코드 기준 확정.
+> 관심지역·공지 엔드포인트는 코드(`interest/controller/InterestRegionController`, `notice/controller/NoticeController`) 기준 확정.
 
 ---
 
 ## 7. 데이터 명세 (주요 테이블)
 
+> 기준: `no-home-backend/src/main/resources/schema.sql`. 전체 관계는 [ERD](../diagrams/erd.md) 참조.
+
 | 테이블 | 핵심 컬럼 | 비고 |
 | --- | --- | --- |
-| regions | region_id, lawd_cd, legal_dong_code, sido, sigungu, umd_nm, lat, lng | 좌표 nullable |
-| houses | house_id, region_id, sgg_cd, umd_nm, jibun, apt_nm, build_year, lat, lng | 주택 기본정보 |
-| house_deals | deal_id, house_id, source_api, lawd_cd, deal_ymd, deal_type(sale/jeonse/monthly), deal_amount(_manwon), exclu_use_ar, floor, deal_date, api_row_hash | 전월세 컬럼: deposit(_manwon), monthly_rent(_manwon), contract_term/type 등 |
-| members | member_id, email, password_hash, name, phone | BCrypt 해싱 |
-| refresh_tokens | member_id, token_hash, expires_at | 로그아웃 블랙리스트 |
-| public_data_import_batches | source_api, lawd_cd, deal_ymd, house_type, deal_type, status, total/imported/skipped_count | 멱등 적재 이력 |
-| interest_regions | (회원-지역 연결) | PR #26, 코드 기준 확정 |
+| regions | region_id(PK), lawd_cd, legal_dong_code, sido, sigungu, umd_nm, lat, lng | 좌표 nullable, uq_regions_lawd_umd |
+| houses | house_id(PK), region_id(FK), sgg_cd, umd_nm, jibun, apt_nm, build_year, lat, lng | uq_houses_source_identity |
+| house_deals | deal_id(PK), house_id(FK), source_api, lawd_cd, deal_ymd, house_type, deal_type(sale/jeonse/monthly), deal_amount(_manwon), exclu_use_ar, floor, deal_date, api_row_hash, raw_response(JSON) | 전월세: rent_type, deposit(_manwon), monthly_rent(_manwon), contract_term, contract_type, use_rr_right |
+| members | member_id(PK), email, password_hash, name, phone | BCrypt, uq_members_email |
+| member_refresh_tokens | member_id(PK,FK), token_hash, expires_at | 로그아웃 블랙리스트 |
+| notices | notice_id(PK), member_id(FK), title, content, created_at, updated_at | 관리자 작성 공지 |
+| interest_regions | interest_region_id(PK), member_id(FK), region_id(FK), created_at | uq_interest_regions_member_region(중복 등록 방지) |
+| public_data_import_batches | import_batch_id(PK), source_api, lawd_cd, deal_ymd, house_type, deal_type, status, total/imported/skipped_count, error_message | 멱등 적재 이력, uq_import_batches_request |
 
-인덱스: `uq_house_deals_api_row_hash`, `idx_house_deals_lawd_ymd`, `idx_house_deals_deal_mode(deal_type, lawd_cd, deal_ymd)` 등.
+관계: `regions → houses → house_deals` / `members → (member_refresh_tokens·notices·interest_regions)` / `regions → interest_regions`.
+주요 인덱스: `uq_house_deals_api_row_hash`, `idx_house_deals_lawd_ymd`, `idx_house_deals_deal_mode(deal_type, lawd_cd, deal_ymd)`.
 
 ---
 
@@ -190,6 +211,7 @@ Vue 3 SPA  ──(Vite proxy /api)──▶  Spring Boot REST API  ──MyBatis
 ## 부록 A. 요구사항 추적 (담당·근거)
 - 이정헌(AI): F-AI1~4 — PR #2,6,16,18,28,29 / 보안 NFR-S3·가용성 — PR #5,7 / 공공데이터 resultCode — PR #20
 - 최민식(공공데이터·검색): F701/702/720, F-RENT, F-LIVE — PR #13,23,27,30 / 인프라·폴더구조
-- 전효준(회원·지도): F712~716, F-MAP, F-INT, F-ADM, F-PWD — PR #1,22,26,33
+- 전효준(회원·지도): F712~716, F-MAP, F-INT, F-ADM, F-PWD, F711 — PR #1,22,26,33
 
 > 본 명세서의 일정·담당 근거는 `wbs-gantt.md`의 git 실측 데이터와 일치한다.
+> 데이터·기능·액터 정의는 `docs/diagrams/`(ERD·클래스·유스케이스)와 정합한다.

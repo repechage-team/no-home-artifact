@@ -60,7 +60,8 @@
 | **6** | **문서·발표·제출** | 이/공 | 06-12 | 06-24 | 🔄 | M7 준비 |
 | 6.1 | Sprint·AI 설계/구현/트러블슈팅 문서 | 이 | 06-12 | 06-24 | ✅ | docs/* |
 | 6.2 | 발표자료(구성안·대본·시연) | 공 | 06-24 | 06-24 | ✅ | presentation/ |
-| 6.3 | 요구사항 명세서·WBS·간트 | 공 | 06-24 | 06-24 | 🔄 | deliverables/ |
+| 6.3 | 시스템 다이어그램(클래스·ERD·유스케이스) | 공 | 06-24 | 06-24 | ✅ | diagrams/ |
+| 6.4 | 요구사항 명세서·WBS·간트 | 공 | 06-24 | 06-24 | 🔄 | deliverables/ |
 
 ---
 
@@ -107,6 +108,7 @@ gantt
     메인 검색 shell·필터 UI    :done, f1, 2026-06-14, 9d
     AI 챗 위젯·회원 UI         :done, f2, 2026-06-22, 3d
     발표자료                  :done, d1, 2026-06-24, 1d
+    시스템 다이어그램          :done, d3, 2026-06-24, 1d
     명세서·WBS·간트           :active, d2, 2026-06-24, 1d
     제출 산출물 정리          :milestone, dm, 2026-06-24, 0d
 ```
@@ -126,3 +128,10 @@ gantt
 | M7 | 검증·제출 산출물 | - | 06-24~ | 🔄 |
 
 > **계획↔실적 주석**: 문서(working-memory)의 Sprint 진행 표기는 2026-05-29~06-14이나, 실제 커밋 이력은 06-12~06-24다. 본 WBS·간트는 **검증 가능한 git 커밋일을 1차 기준**으로 하고, Sprint 번호는 작업 범위 식별용으로만 참조한다. 일부 태스크의 세부 시작일은 작성자별 커밋 분포로 근사했다.
+
+---
+
+## 5. 관련 산출물
+- 요구사항 명세서: [requirements-spec.md](requirements-spec.md)
+- 시스템 다이어그램: [클래스](../diagrams/class-diagrams.md) · [ERD](../diagrams/erd.md) · [유스케이스](../diagrams/usecase-diagrams.md)
+- 발표자료: [presentation/](../presentation/README.md)
