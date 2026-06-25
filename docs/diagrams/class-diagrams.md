@@ -10,6 +10,11 @@
 
 ## 1. 백엔드 패키지 개요
 
+![backend packages](assets/backend-packages.svg)
+
+<details>
+<summary>Mermaid source</summary>
+
 ```mermaid
 classDiagram
 direction LR
@@ -52,6 +57,8 @@ common --> house : shared response and region helpers
 common --> member : auth interceptor config
 ```
 
+</details>
+
 읽는 법:
 
 - 이 그림은 내부 클래스가 아니라 패키지 사이의 책임과 큰 의존 방향만 보여준다.
@@ -62,6 +69,11 @@ common --> member : auth interceptor config
 - DTO, Mapper, 예외 클래스는 이 개요 그림에서 생략했다.
 
 ## 2. AI 챗봇 클래스 다이어그램
+
+![ai chatbot class](assets/ai-chatbot-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -146,6 +158,8 @@ AgentCommandGuards --> HouseTools : reuses date guard
 AssistantResponse --> AgentCommand : contains
 ```
 
+</details>
+
 읽는 법:
 
 - `AiAssistantController`는 `POST /api/ai/assistant` 단일 엔드포인트다.
@@ -157,6 +171,11 @@ AssistantResponse --> AgentCommand : contains
 - `AiKeyEnvironmentPostProcessor`, `HouseToolException` 등 운영/예외 보조 클래스는 그림을 작게 유지하기 위해 제외했다.
 
 ## 3. 주택 검색 클래스 다이어그램
+
+![house search class](assets/house-search-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -234,6 +253,8 @@ HouseService --> AutoImportRangeResponse : uses metadata
 HouseMapper --> HouseSearchCondition : accepts
 ```
 
+</details>
+
 읽는 법:
 
 - `HouseController`는 검색 API를 받고, `HouseService`가 DB 조회와 자동/라이브 공공데이터 조회를 조율한다.
@@ -244,6 +265,11 @@ HouseMapper --> HouseSearchCondition : accepts
 - 내부 private record와 단순 변환 로직은 제외했다.
 
 ## 4. 공공데이터 적재 클래스 다이어그램
+
+![publicdata import class](assets/publicdata-import-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -319,6 +345,8 @@ PublicDataAptTradeClient --> AptTradeApiResponse : returns
 PublicDataAptRentClient --> AptRentApiResponse : returns
 ```
 
+</details>
+
 읽는 법:
 
 - 매매와 전월세는 클라이언트/파서/팩토리가 분리되어 있지만, 최종 저장은 `PublicDataImportMapper`로 모인다.
@@ -329,6 +357,11 @@ PublicDataAptRentClient --> AptRentApiResponse : returns
 - API item record, id mapping record, 예외 세부 사유 enum은 제외했다.
 
 ## 5. 회원과 인증 클래스 다이어그램
+
+![member auth class](assets/member-auth-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -414,6 +447,8 @@ MemberController --> PasswordResetRequest : accepts
 MemberController --> MemberUpdateRequest : accepts
 ```
 
+</details>
+
 읽는 법:
 
 - 회원 정보 관리는 `MemberService`, 로그인/토큰 재발급/로그아웃은 `MemberAuthService`가 맡는다.
@@ -424,6 +459,11 @@ MemberController --> MemberUpdateRequest : accepts
 - `MemberException`, `MemberErrorCode`, `AuthenticatedMember` 같은 보조 타입은 제외했다.
 
 ## 6. 공지와 관심지역 클래스 다이어그램
+
+![notice interest class](assets/notice-interest-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -483,6 +523,8 @@ InterestRegionService --> InterestRegionRequest : accepts
 InterestRegionService --> InterestRegionResponse : returns
 ```
 
+</details>
+
 읽는 법:
 
 - 공지는 작성자/관리자 확인 때문에 회원 도메인과 연결된다.
@@ -493,6 +535,11 @@ InterestRegionService --> InterestRegionResponse : returns
 - 예외 클래스와 에러코드 enum은 제외했다.
 
 ## 7. 공통 인프라 클래스 다이어그램
+
+![common infra class](assets/common-infra-class.svg)
+
+<details>
+<summary>Mermaid source</summary>
 
 ```mermaid
 classDiagram
@@ -545,6 +592,8 @@ ApiResponse~T~ --> HealthResponse : wraps responses
 ApiResponse~T~ --> MemberResponse : wraps responses
 ApiResponse~T~ --> HouseSearchPageResponse : wraps responses
 ```
+
+</details>
 
 읽는 법:
 
