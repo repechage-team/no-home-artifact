@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 4-2 실거래가 검색</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .two{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+  .feat{display:flex;flex-direction:column;gap:14px}
+  .frow{display:flex;align-items:flex-start;gap:12px}
+  .fi{font-size:24px;flex:0 0 auto}
+  .fh{font-size:18px;font-weight:800;color:#2E2E3A}
+  .fd{font-size:15px;color:#5F5E5A;margin-top:2px}
+  .modes{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .shot{width:100%;border-radius:14px;border:3px solid #fff;box-shadow:0 8px 20px rgba(0,0,0,.12)}
+  .shotcap{text-align:center;font-size:13px;color:#8A8880;margin-top:6px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">실거래가 검색 + 자동 임포트</div><div class="rule"></div>
+    <div class="two">
+      <div class="feat">
+        <div class="frow"><div class="fi">🏷️</div><div><div class="fh">5개 거래유형</div><div class="modes"><span class="pill b">매매</span><span class="pill b">전세</span><span class="pill b">월세</span><span class="pill b">전월세</span><span class="pill b">전체</span></div></div></div>
+        <div class="frow"><div class="fi">📍</div><div><div class="fh">지역 3단계</div><div class="fd">시도 → 시군구 → 법정동(동적 로드)</div></div></div>
+        <div class="frow"><div class="fi">🎚️</div><div><div class="fh">가격 이중 슬라이더 · 정렬 · 페이징</div><div class="fd">거래유형별 가격 필터 분기(매매가/보증금/월세)</div></div></div>
+        <div class="frow"><div class="fi">⚡</div><div><div class="fh">자동 임포트</div><div class="fd">DB 우선 조회, 부족분만 공공데이터 자동 적재</div></div></div>
+      </div>
+      <div>
+        <img class="shot" src="../screens/gangnamguSearch.png" alt="검색 화면">
+        <div class="shotcap">강남구 검색 — 목록 + 지도 마커</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 좌 기능 4행(이모지+설명, 거래유형 pill), 우 실제 스크린샷 gangnamguSearch.png. -->
+</body></html>

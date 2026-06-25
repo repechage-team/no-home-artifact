@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 6-1 화면 흐름도</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .flow{margin-top:40px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px}
+  .fn{background:#fff;border-radius:16px;padding:14px 18px;font-size:16px;font-weight:800;color:#2E2E3A;box-shadow:0 5px 14px rgba(0,0,0,.07);text-align:center}
+  .fn.ai{background:#3E8EDE;color:#fff}
+  .fn.m{background:#FBF0D2;color:#8A6310}
+  .ar{color:#3E8EDE;font-size:22px;font-weight:800}
+  .branch{display:flex;flex-direction:column;gap:8px}
+  .legend{margin-top:40px;display:flex;justify-content:center;gap:22px;font-size:14px;color:#5F5E5A;font-weight:700}
+  .dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">화면 흐름도</div>
+    <div class="sub">사용자 동선 한눈에 — 검색·지도·AI·회원</div>
+    <div class="rule"></div>
+    <div class="flow">
+      <div class="fn">진입</div><span class="ar">→</span>
+      <div class="fn">거래유형·지역·가격 선택</div><span class="ar">→</span>
+      <div class="fn">검색</div><span class="ar">→</span>
+      <div class="fn">결과 목록 + 지도 마커</div><span class="ar">→</span>
+      <div class="branch">
+        <div class="fn">매물 선택 / 지도 포커스</div>
+        <div class="fn ai">AI 어시스턴트로 조작</div>
+      </div>
+    </div>
+    <div class="flow" style="margin-top:24px">
+      <div class="fn m">회원 로그인</div><span class="ar">→</span>
+      <div class="fn m">내 정보 · 관심지역</div>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:#fff;border:1px solid #ccc"></span>일반 흐름</span>
+      <span><span class="dot" style="background:#3E8EDE"></span>AI 조작(어디서든 호출)</span>
+      <span><span class="dot" style="background:#F5C84C"></span>회원 흐름</span>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 가로 흐름 노드(흰/파랑AI/노랑회원) + 화살표, 하단 범례. -->
+</body></html>

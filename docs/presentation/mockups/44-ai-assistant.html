@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>NoHome 목업 — 4-4 AI 어시스턴트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#555; display:flex; justify-content:center; padding:24px; font-family:'Gothic A1',sans-serif; }
+  .slide { position:relative; width:1280px; height:720px; background:#F7F5EF; overflow:hidden; color:#2E2E3A; }
+  .f-top-y { position:absolute; top:0; left:0; width:62%; height:14px; background:#F5C84C; }
+  .f-top-b { position:absolute; top:0; right:0; width:38%; height:14px; background:#82BEF5; }
+  .f-left  { position:absolute; top:0; left:0; width:14px; height:100%; background:#F5C84C; }
+  .f-right { position:absolute; top:0; right:0; width:14px; height:100%; background:#82BEF5; }
+  .f-bot   { position:absolute; bottom:0; left:0; width:100%; height:14px; background:#82BEF5; }
+  .body { position:absolute; inset:14px; padding:40px 56px; }
+  .title { font-family:'Do Hyeon',sans-serif; font-size:46px; letter-spacing:-1px; }
+  .sub { font-size:17px; color:#5F5E5A; margin-top:2px; font-weight:500; }
+  .sub b { color:#2E6FB0; }
+  .rule { margin-top:8px; border-top:2px dashed #C9C7BF; }
+  .stage { margin-top:22px; display:grid; grid-template-columns:1.15fr 0.85fr; gap:30px; }
+
+  /* 좌: 친근한 대화 흐름 */
+  .flow { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .bubble {
+    align-self:flex-start; background:#fff; border:3px solid #F5C84C; border-radius:22px 22px 22px 6px;
+    padding:13px 20px; font-size:18px; font-weight:700; box-shadow:0 5px 14px rgba(0,0,0,.07);
+  }
+  .bubble .who { font-size:13px; color:#B07F12; font-weight:800; margin-right:6px; }
+  .down { font-size:24px; color:#9aa; line-height:1; }
+  .ai {
+    background:#3E8EDE; color:#fff; border-radius:26px; padding:18px 30px; text-align:center;
+    box-shadow:0 8px 20px rgba(62,142,222,.35);
+  }
+  .ai .n { font-family:'Do Hyeon',sans-serif; font-size:24px; }
+  .ai .e { font-size:13px; opacity:.9; margin-top:2px; font-weight:700; letter-spacing:.3px; }
+  .forks { display:flex; gap:16px; width:100%; }
+  .fork { flex:1; border-radius:22px; padding:16px 18px; box-shadow:0 6px 16px rgba(0,0,0,.08); }
+  .fork .ico { font-size:30px; }
+  .fork .ft { font-family:'Do Hyeon',sans-serif; font-size:20px; margin-top:4px; }
+  .fork .fd { font-size:14px; margin-top:4px; line-height:1.4; }
+  .ans { background:#E1F5EE; border:3px solid #2FB98A; }
+  .ans .ft, .ans .fd { color:#0F6E56; }
+  .cmd { background:#FBEEDA; border:3px solid #F0A030; }
+  .cmd .ft, .cmd .fd { color:#8A4E08; }
+
+  /* 우: 제어 범위 */
+  .panel-h { font-family:'Do Hyeon',sans-serif; font-size:22px; color:#2E2E3A; }
+  .lab { font-size:14px; font-weight:800; color:#8A8880; margin:14px 0 7px; }
+  .pills { display:flex; flex-wrap:wrap; gap:7px; }
+  .pill { border-radius:18px; padding:7px 14px; font-size:14px; font-weight:800; }
+  .pill.b { background:#E6F1FB; color:#185FA5; }
+  .pill.y { background:#FBF0D2; color:#8A6310; }
+  .mini { display:flex; gap:10px; margin-top:16px; }
+  .mbox { flex:1; background:#fff; border-radius:16px; padding:13px 15px; box-shadow:0 4px 12px rgba(0,0,0,.06); }
+  .mbox .t { font-family:'Do Hyeon',sans-serif; font-size:16px; color:#2E6FB0; }
+  .mbox .d { font-size:13px; color:#5F5E5A; margin-top:4px; line-height:1.4; }
+
+  .cap {
+    position:absolute; left:56px; right:56px; bottom:28px; background:#EAF3FC; border-radius:16px;
+    padding:14px 22px; font-size:17px; font-weight:800; color:#1F5A92; text-align:center;
+  }
+  .cap span { color:#E0982B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="f-top-y"></div><div class="f-top-b"></div>
+    <div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+    <div class="body">
+      <div class="title">AI 어시스턴트</div>
+      <div class="sub">단일 <b>POST /api/ai/assistant</b> — 말 한마디로 묻고, 화면까지 움직인다</div>
+      <div class="rule"></div>
+
+      <div class="stage">
+        <div class="flow">
+          <div class="bubble"><span class="who">사용자</span>“강남구 전세 보여줘”</div>
+          <div class="down">▼</div>
+          <div class="ai"><div class="n">🏠 NoHome AI</div><div class="e">POST /api/ai/assistant · tool calling 분기</div></div>
+          <div class="down">▼</div>
+          <div class="forks">
+            <div class="fork ans"><div class="ico">💬</div><div class="ft">질문 → 답변</div><div class="fd">실거래 데이터를 요약해 대답</div></div>
+            <div class="fork cmd"><div class="ico">🖱️</div><div class="ft">조작 → 명령</div><div class="fd">필터·검색·지도를 화면에서 실행</div></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="panel-h">AI가 다루는 것</div>
+          <div class="lab">액션 6종</div>
+          <div class="pills">
+            <span class="pill b">검색 실행</span><span class="pill b">필터 설정</span><span class="pill b">페이지 이동</span>
+            <span class="pill b">매물 선택</span><span class="pill b">지도 포커스</span><span class="pill b">초기화</span>
+          </div>
+          <div class="lab">필터 9종</div>
+          <div class="pills">
+            <span class="pill y">지역</span><span class="pill y">법정동</span><span class="pill y">아파트명</span>
+            <span class="pill y">거래월</span><span class="pill y">거래유형</span><span class="pill y">정렬</span><span class="pill y">가격·보증금·월세</span>
+          </div>
+          <div class="mini">
+            <div class="mbox"><div class="t">returnDirect</div><div class="d">“답변 안 함”도 선택지 → 오분류 완화</div></div>
+            <div class="mbox"><div class="t">단기 대화기억</div><div class="d">최근 10턴 · 세션 격리</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cap">벡터 임베딩 없이 <span>Tool Calling으로 실거래 RDB를 조회</span>하는 RAG 구조</div>
+    </div>
+  </div>
+<!--
+Canva 재현 메모 (4-4 AI 어시스턴트) — 발표 친화 디자인
+- 프레임·제목·점선: 공통. 제목 210다락방(목업 Do Hyeon), 본문 나눔스퀘어(목업 Gothic A1)
+- 좌(흐름): 노랑테두리 말풍선(둥근 22px, 좌하 꼬리) → ▼ → 파랑 캡슐 'NoHome AI'(#3E8EDE, 그림자) → ▼ → 2갈래 카드
+    · 질문→답변: 초록카드 #E1F5EE/테두리 #2FB98A, 글자 #0F6E56, 아이콘 💬
+    · 조작→명령: 주황카드 #FBEEDA/테두리 #F0A030, 글자 #8A4E08, 아이콘 🖱️
+- 우(제어): 액션 pill(연파랑 #E6F1FB/글자 #185FA5), 필터 pill(연노랑 #FBF0D2/글자 #8A6310), 미니카드 2(흰 라운드+그림자)
+- 하단 캡션 띠: 연파랑 #EAF3FC 라운드, #1F5A92 / "Tool Calling으로 실거래 RDB 조회" 주황강조
+- 둥근 모서리 크게(16~26px) + 부드러운 그림자 = 캐릭터 로고의 둥근 톤과 통일. 이모지는 Canva 스티커로 대체 가능
+- 상세 클래스도(참조): ../diagrams/assets/ai-chatbot-class.svg
+-->
+</body>
+</html>

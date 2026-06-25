@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 5-2 기술 스택</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .layers{margin-top:34px;display:flex;flex-direction:column;gap:14px}
+  .layer{display:flex;align-items:center;gap:18px;background:#fff;border-radius:16px;padding:16px 22px;box-shadow:0 5px 14px rgba(0,0,0,.07)}
+  .lname{font-family:'Do Hyeon',sans-serif;font-size:20px;width:130px;flex:0 0 auto}
+  .l-fe{color:#185FA5}.l-be{color:#0F6E56}.l-ai{color:#8A4E08}.l-infra{color:#5F5E5A}
+  .ltags{display:flex;flex-wrap:wrap;gap:8px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">개발 환경 &amp; 기술 스택</div><div class="rule"></div>
+    <div class="layers">
+      <div class="layer"><div class="lname l-fe">Frontend</div><div class="ltags"><span class="pill b">Vue 3.5</span><span class="pill b">Vite 5</span><span class="pill b">Kakao Maps SDK</span></div></div>
+      <div class="layer"><div class="lname l-be">Backend</div><div class="ltags"><span class="pill g">Java 17</span><span class="pill g">Spring Boot 3.5.9</span><span class="pill g">MyBatis 3</span><span class="pill g">MySQL 8</span></div></div>
+      <div class="layer"><div class="lname l-ai">AI</div><div class="ltags"><span class="pill y">Spring AI 1.1.2</span><span class="pill y">Tool Calling</span><span class="pill y">gpt-4o-mini</span></div></div>
+      <div class="layer"><div class="lname l-infra">인프라·협업</div><div class="ltags"><span class="pill b">Docker Compose</span><span class="pill b">Git 브랜치 전략</span><span class="pill b">문서 기반 Sprint</span></div></div>
+    </div>
+    <div class="cta">인증 <span>자체 JWT(HS256) + BCrypt</span> · 비밀키 전부 환경변수 분리(gitignored)</div>
+  </div>
+</div>
+<!-- Canva 재현: 계층별 가로 카드(레이블 색구분 + 기술 pill), 하단 인증 강조띠. -->
+</body></html>

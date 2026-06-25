@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 4-3 회원·인증·개인화</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .two{margin-top:28px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:26px;align-items:start}
+  .frow{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .fi{font-size:23px;flex:0 0 auto}
+  .fh{font-size:18px;font-weight:800;color:#2E2E3A}
+  .fd{font-size:15px;color:#5F5E5A;margin-top:2px}
+  .fd b{color:#3E8EDE}
+  .shotrow{display:flex;gap:10px}
+  .shot{width:50%;border-radius:12px;border:3px solid #fff;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  .shotcap{text-align:center;font-size:13px;color:#8A8880;margin-top:6px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">회원 · 인증 · 개인화</div><div class="rule"></div>
+    <div class="two">
+      <div>
+        <div class="frow"><div class="fi">👤</div><div><div class="fh">회원 CRUD + 로그인</div><div class="fd">가입·조회·수정·물리삭제·로그인·로그아웃</div></div></div>
+        <div class="frow"><div class="fi">🔐</div><div><div class="fh">보안</div><div class="fd"><b>BCrypt</b> 해싱 · <b>JWT(HS256)</b> access/refresh · HttpOnly 쿠키 · 운영 fail-closed</div></div></div>
+        <div class="frow"><div class="fi">🛡️</div><div><div class="fh">관리자 권한 분리</div><div class="fd">회원 검색은 관리자만 — 일반회원 403</div></div></div>
+        <div class="frow"><div class="fi">⭐</div><div><div class="fh">개인화 (추가)</div><div class="fd">관심지역(/interest-regions) · 공지사항(/notices)</div></div></div>
+      </div>
+      <div>
+        <div class="shotrow"><img class="shot" src="../screens/login.png" alt="로그인"><img class="shot" src="../screens/memberInfo.png" alt="내 정보"></div>
+        <div class="shotcap">로그인 · 내 정보</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 좌 회원/보안/관리자/개인화 4행, 우 스크린샷 login·memberInfo(추가로 signup·memberSearch·notice 활용 가능). -->
+</body></html>

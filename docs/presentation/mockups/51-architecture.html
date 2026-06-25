@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 5-1 시스템 구조도</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .arch{margin-top:34px;display:flex;align-items:center;justify-content:center;gap:14px}
+  .tier{background:#fff;border-radius:18px;padding:20px 18px;text-align:center;box-shadow:0 6px 16px rgba(0,0,0,.08);min-width:190px}
+  .tier .ti{font-size:30px}
+  .tier .tn{font-family:'Do Hyeon',sans-serif;font-size:20px;margin-top:6px;color:#2E2E3A}
+  .tier .td{font-size:14px;color:#5F5E5A;margin-top:3px}
+  .conn{font-size:13px;color:#8A8880;font-weight:800;text-align:center}
+  .conn .ar{font-size:22px;color:#3E8EDE;display:block}
+  .ext{margin-top:30px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .ec{background:#EAF3FC;border-radius:14px;padding:14px 16px;text-align:center}
+  .ec .en{font-weight:800;color:#1F5A92;font-size:16px}
+  .ec .ed{font-size:13px;color:#5F5E5A;margin-top:2px}
+  .extlab{margin-top:24px;text-align:center;font-weight:800;color:#8A8880;font-size:14px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">전체 시스템 구조</div>
+    <div class="sub">표준 3-tier + Docker Compose 단일 실행</div>
+    <div class="rule"></div>
+    <div class="arch">
+      <div class="tier"><div class="ti">🖥️</div><div class="tn">Vue 3 SPA</div><div class="td">Vite · Kakao Map</div></div>
+      <div class="conn"><span class="ar">→</span>/api (proxy)</div>
+      <div class="tier"><div class="ti">⚙️</div><div class="tn">Spring Boot</div><div class="td">REST · MyBatis</div></div>
+      <div class="conn"><span class="ar">→</span>JDBC</div>
+      <div class="tier"><div class="ti">🗄️</div><div class="tn">MySQL</div><div class="td">실거래·회원</div></div>
+    </div>
+    <div class="extlab">외부 연동</div>
+    <div class="ext">
+      <div class="ec"><div class="en">국토부 공공데이터</div><div class="ed">매매·전월세 실거래가</div></div>
+      <div class="ec"><div class="en">SSAFY GMS</div><div class="ed">OpenAI 프록시 (LLM)</div></div>
+      <div class="ec"><div class="en">Kakao Map</div><div class="ed">지도 · geocoding</div></div>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 3-tier 가로 흐름(흰 카드+이모지, 파랑 화살표) + 외부연동 3박스(연파랑). 상세는 ../diagrams/assets/backend-packages.svg. -->
+</body></html>
