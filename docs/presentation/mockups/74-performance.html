@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 7-4 라이브 검색 성능</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .ba{margin-top:30px;display:grid;grid-template-columns:1fr 64px 1fr;gap:14px;align-items:center}
+  .col{border-radius:18px;padding:20px;box-shadow:0 6px 16px rgba(0,0,0,.08)}
+  .before{background:#FCEBEB;border:3px solid #E24B4A}
+  .after{background:#E1F5EE;border:3px solid #2FB98A}
+  .ch{font-family:'Do Hyeon',sans-serif;font-size:19px;margin-bottom:10px}
+  .before .ch{color:#A32D2D}.after .ch{color:#0F6E56}
+  .li{font-size:15px;line-height:1.7;color:#2E2E3A}
+  .big{font-family:'Do Hyeon',sans-serif;font-size:30px}
+  .before .big{color:#A32D2D}.after .big{color:#0F6E56}
+  .arr{text-align:center;font-size:34px;color:#3E8EDE;font-weight:800}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">라이브 검색 성능 개선</div>
+    <div class="sub">미캐시 첫 조회 지연 문제 해결 (DB 우선 + 부족분 자동 적재)</div>
+    <div class="rule"></div>
+    <div class="ba">
+      <div class="col before">
+        <div class="ch">개선 전 · <span class="big">~17초</span></div>
+        <div class="li">• 응답 전 API 결과 전체 DB 저장<br>• row-by-row 적재(수천 왕복)<br>• numOfRows 100 → 페이지 多</div>
+      </div>
+      <div class="arr">→</div>
+      <div class="col after">
+        <div class="ch">개선 후 · <span class="big">대폭 단축</span></div>
+        <div class="li">• 응답 우선 + DB 백그라운드 batch<br>• batch upsert + INSERT IGNORE<br>• numOfRows 1000 (16→2페이지)</div>
+      </div>
+    </div>
+    <div class="cta">응답 경로와 저장 경로를 분리 — <span>먼저 보여주고, 적재는 백그라운드로</span></div>
+  </div>
+</div>
+<!-- Canva 재현: before(빨강)/after(초록) 2열 비교 + 가운데 화살표, 하단 강조띠. -->
+</body></html>

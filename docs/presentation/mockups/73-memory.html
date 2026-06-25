@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 7-3 단기 대화기억</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  table{margin-top:30px}
+  th,td{font-size:16px;padding:11px 8px}
+  td.item{font-size:16px}
+  .pick{background:#FBF0D2 !important;font-weight:800}
+  th.pick{background:#F5C84C !important;color:#5A4410;border-radius:10px 10px 0 0}
+  .o{color:#1D9E75;font-weight:800}.x{color:#C9C7BF;font-weight:800}.m{color:#E0982B;font-weight:800}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">단기 대화기억 — 저장소 선택</div>
+    <div class="sub">MessageWindowChatMemory(InMemory, 최근 10턴) · conversationId = memberId:UUID</div>
+    <div class="rule"></div>
+    <table>
+      <thead><tr><th style="text-align:left;padding-left:18px">기준</th><th class="pick">InMemory (채택)</th><th>localStorage</th><th>RDB</th><th>Redis</th></tr></thead>
+      <tbody>
+        <tr><td class="item">원문 위치</td><td class="pick">서버 메모리</td><td>클라이언트</td><td>서버 디스크</td><td>서버 메모리</td></tr>
+        <tr><td class="item">영속성(닫으면 초기화)</td><td class="pick o">✓ 휘발</td><td class="m">△</td><td class="x">영속</td><td class="m">TTL</td></tr>
+        <tr><td class="item">프라이버시</td><td class="pick o">높음</td><td class="m">XSS 위험</td><td class="x">영속 책임</td><td class="m">중</td></tr>
+        <tr><td class="item">운영 비용</td><td class="pick o">없음</td><td class="o">없음</td><td class="m">스키마·정리</td><td class="x">인프라 추가</td></tr>
+      </tbody>
+    </table>
+    <div class="cta">"닫으면 초기화 + 원문 비영속" 요구에 최적 — 전환 시 <span>ChatMemoryRepository 빈 1곳</span>만 교체(스케일아웃→Redis)</div>
+  </div>
+</div>
+<!-- Canva 재현: 저장소 4안 비교표(InMemory 열 노랑강조) + 하단 전환 강조띠. -->
+</body></html>

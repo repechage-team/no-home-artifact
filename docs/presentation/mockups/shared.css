@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gothic+A1:wght@400;500;700;800;900&display=swap');
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#555; display:flex; flex-wrap:wrap; gap:24px; justify-content:center; padding:24px; font-family:'Gothic A1',sans-serif; }
+
+/* 슬라이드 캔버스 16:9 */
+.slide { position:relative; width:1280px; height:720px; background:#F7F5EF; overflow:hidden; color:#2E2E3A; }
+
+/* 공통 프레임: 좌상단 노랑 L + 우·하단 하늘 (두께 14px) */
+.f-top-y { position:absolute; top:0; left:0; width:62%; height:14px; background:#F5C84C; }
+.f-top-b { position:absolute; top:0; right:0; width:38%; height:14px; background:#82BEF5; }
+.f-left  { position:absolute; top:0; left:0; width:14px; height:100%; background:#F5C84C; }
+.f-right { position:absolute; top:0; right:0; width:14px; height:100%; background:#82BEF5; }
+.f-bot   { position:absolute; bottom:0; left:0; width:100%; height:14px; background:#82BEF5; }
+
+.body { position:absolute; inset:14px; padding:44px 60px; }
+
+/* 제목 + 점선 */
+.title { font-family:'Do Hyeon',sans-serif; font-size:46px; color:#2E2E3A; letter-spacing:-1px; }
+.sub { font-size:17px; color:#5F5E5A; margin-top:2px; font-weight:500; }
+.sub b { color:#2E6FB0; }
+.rule { margin-top:10px; border-top:2px dashed #C9C7BF; }
+
+/* 번호 뱃지 (파랑·노랑 교차) */
+.badge { flex:0 0 auto; width:42px; height:42px; border-radius:50%; color:#fff; font-family:'Do Hyeon',sans-serif; font-size:22px; display:flex; align-items:center; justify-content:center; }
+.b-blue { background:#3E8EDE; }
+.b-yellow { background:#F5C84C; }
+
+/* 항목 행 */
+.pt { display:flex; align-items:flex-start; gap:20px; }
+.pt-h { font-size:23px; font-weight:800; color:#2E2E3A; }
+.pt-d { font-size:17px; color:#5F5E5A; margin-top:4px; line-height:1.5; }
+.pt-d b { color:#3E8EDE; font-weight:800; }
+
+/* pill */
+.lab { font-size:14px; font-weight:800; color:#8A8880; margin:14px 0 7px; }
+.pills { display:flex; flex-wrap:wrap; gap:8px; }
+.pill { border-radius:18px; padding:7px 14px; font-size:15px; font-weight:800; }
+.pill.b { background:#E6F1FB; color:#185FA5; }
+.pill.y { background:#FBF0D2; color:#8A6310; }
+.pill.g { background:#E1F5EE; color:#0F6E56; }
+
+/* 카드 */
+.panel-h { font-family:'Do Hyeon',sans-serif; font-size:22px; color:#2E2E3A; }
+.card { background:#fff; border-radius:16px; padding:16px 18px; box-shadow:0 5px 14px rgba(0,0,0,.07); }
+.card .ct { font-family:'Do Hyeon',sans-serif; font-size:18px; color:#2E6FB0; }
+.card .cd { font-size:15px; color:#5F5E5A; margin-top:5px; line-height:1.45; }
+
+/* 하단 강조 띠 */
+.cta { margin-top:32px; background:#EAF3FC; border-left:8px solid #3E8EDE; border-radius:0 12px 12px 0; padding:20px 26px; font-size:20px; font-weight:800; color:#1F5A92; }
+.cta span { color:#E0982B; }
+.cap { position:absolute; left:60px; right:60px; bottom:30px; background:#EAF3FC; border-radius:16px; padding:13px 22px; font-size:17px; font-weight:800; color:#1F5A92; text-align:center; }
+.cap span { color:#E0982B; }
+
+/* 표 */
+table { width:100%; border-collapse:separate; border-spacing:0 8px; }
+th, td { padding:13px 10px; text-align:center; font-size:18px; }
+th { font-family:'Do Hyeon',sans-serif; font-weight:400; font-size:19px; color:#5F5E5A; }
+td.item { text-align:left; font-weight:700; color:#2E2E3A; padding-left:18px; }
+tbody tr { background:#fff; }
+tbody tr td:first-child { border-radius:10px 0 0 10px; }
+tbody tr td:last-child { border-radius:0 10px 10px 0; }
+.yes { color:#1D9E75; font-weight:800; }
+.no  { color:#C9C7BF; font-weight:800; }
+.partial { color:#E0982B; font-weight:800; }
+
+/* index 페이지용 (슬라이드 축소 나열) */
+.idx-title { width:100%; color:#fff; font-family:'Do Hyeon',sans-serif; font-size:26px; text-align:center; }
+.idx-note { width:100%; color:#ddd; text-align:center; font-size:14px; margin-top:-12px; }
+.thumb { transform:scale(0.46); transform-origin:top left; width:1280px; height:720px; }
+.thumb-wrap { width:589px; height:331px; overflow:hidden; border-radius:8px; }

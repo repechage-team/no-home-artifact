@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 7-2 Capability-driven</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .chain{margin-top:34px;display:flex;align-items:stretch;gap:10px}
+  .cn{flex:1;background:#fff;border-radius:16px;padding:16px;box-shadow:0 5px 14px rgba(0,0,0,.07);text-align:center}
+  .cn .ci{font-size:26px}
+  .cn .ch{font-size:16px;font-weight:800;margin-top:6px;color:#2E2E3A}
+  .cn .cd{font-size:13px;color:#5F5E5A;margin-top:4px;line-height:1.4}
+  .ar{align-self:center;color:#3E8EDE;font-size:22px;font-weight:800}
+  .mini{margin-top:24px;display:flex;gap:14px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">Capability-driven Agent</div>
+    <div class="sub">단일 출처(filterSchema) + 프론트 최종 강제</div>
+    <div class="rule"></div>
+    <div class="chain">
+      <div class="cn"><div class="ci">📋</div><div class="ch">프론트</div><div class="cd">capabilities + 현재 필터 동봉</div></div>
+      <div class="ar">→</div>
+      <div class="cn"><div class="ci">🤖</div><div class="ch">LLM</div><div class="cd">allow-list 힌트로만 사용</div></div>
+      <div class="ar">→</div>
+      <div class="cn"><div class="ci">✅</div><div class="ch">프론트 적용</div><div class="cd">인식 키만 적용, 미인식 키 drop + 안내</div></div>
+    </div>
+    <div class="mini">
+      <div class="card"><div class="ct">drift 차단</div><div class="cd">새 필터(전월세)도 filterSchema 한 곳만 수정하면 자동 적응 · 폼↔schema 동기화 테스트</div></div>
+      <div class="card"><div class="ct">서버 결정적 가드</div><div class="cd">거래월·지역 유효성은 LLM이 아닌 서버(AgentCommandGuards)가 판정</div></div>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 3단 체인(프론트→LLM→프론트 적용) + 미니카드 2(drift/가드). -->
+</body></html>

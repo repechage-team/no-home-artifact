@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 9-1 트러블슈팅</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  table{margin-top:28px}
+  th,td{font-size:15px;padding:11px 10px;text-align:left}
+  th{padding-left:14px}
+  td.p{font-weight:800;color:#2E2E3A;padding-left:14px;width:24%}
+  td.c{color:#A32D2D;width:38%}
+  td.s{color:#0F6E56;width:38%}
+  .hh{display:flex;gap:0}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">트러블슈팅 회고</div>
+    <div class="sub">실제로 부딪힌 문제 → 원인 → 해결</div>
+    <div class="rule"></div>
+    <table>
+      <thead><tr><th>문제</th><th style="color:#A32D2D">원인</th><th style="color:#0F6E56">해결</th></tr></thead>
+      <tbody>
+        <tr><td class="p">공공데이터 142건 중 10건만 적재</td><td class="c">API 페이지네이션 누락</td><td class="s">전체 페이지 순회 적재</td></tr>
+        <tr><td class="p">강남구 데이터인데 "조회 불가"</td><td class="c">정상코드 "000"을 실패로 오분류</td><td class="s">성공 화이트리스트 {"00","000"}</td></tr>
+        <tr><td class="p">미캐시 첫 조회 17초 지연</td><td class="c">저장 완료까지 대기·row-by-row</td><td class="s">응답 우선 + 백그라운드 batch</td></tr>
+        <tr><td class="p">검색하면 Kakao 지도 사라짐</td><td class="c">Vue 리렌더가 비-Vue DOM 제거</td><td class="s">지도 상태를 reactive 밖으로</td></tr>
+        <tr><td class="p">AI가 아파트명만 환각</td><td class="c">seed 더블 인코딩(mojibake) 입력</td><td class="s">utf8mb4 재초기화</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Canva 재현: 문제→원인(빨강)→해결(초록) 3열 표 5행. -->
+</body></html>

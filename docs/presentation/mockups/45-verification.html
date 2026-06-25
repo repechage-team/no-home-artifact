@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 4-5 검증 현황</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .two{margin-top:28px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:28px;align-items:start}
+  .metrics{display:flex;gap:14px;margin-bottom:18px}
+  .metric{flex:1;background:#fff;border-radius:16px;padding:16px;text-align:center;box-shadow:0 5px 14px rgba(0,0,0,.07)}
+  .metric .v{font-family:'Do Hyeon',sans-serif;font-size:38px;color:#3E8EDE}
+  .metric .l{font-size:14px;color:#5F5E5A;margin-top:2px;font-weight:700}
+  .metric.g .v{color:#1D9E75}
+  th,td{font-size:16px;padding:9px 8px}
+  .scn{display:flex;flex-wrap:wrap;gap:7px}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">검증 현황</div>
+    <div class="sub">테스트로 품질을 증명 — 최신 master 실측</div>
+    <div class="rule"></div>
+    <div class="two">
+      <div>
+        <div class="metrics">
+          <div class="metric"><div class="v">177</div><div class="l">백엔드 테스트</div></div>
+          <div class="metric"><div class="v">51</div><div class="l">프론트 테스트</div></div>
+          <div class="metric g"><div class="v">0</div><div class="l">실패 / 오류</div></div>
+        </div>
+        <table>
+          <thead><tr><th style="text-align:left;padding-left:14px">단계</th><th>백엔드</th><th>프론트</th></tr></thead>
+          <tbody>
+            <tr><td class="item">질문 모드</td><td>78</td><td>15</td></tr>
+            <tr><td class="item">에이전트 MVP</td><td>105</td><td>28</td></tr>
+            <tr><td class="item">Phase 2 / 재설계</td><td>113→144</td><td>44</td></tr>
+            <tr><td class="item" style="font-weight:800;color:#3E8EDE">최신 master</td><td style="font-weight:800;color:#3E8EDE">177</td><td style="font-weight:800;color:#3E8EDE">51</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="lab">사용자 시나리오 검증</div>
+        <div class="scn">
+          <span class="pill g">질문 답변</span><span class="pill g">지역+월 검색</span><span class="pill g">전월세</span>
+          <span class="pill g">가격대</span><span class="pill g">정렬</span><span class="pill g">읍면동</span>
+          <span class="pill g">매물 선택</span><span class="pill g">지도 포커스</span><span class="pill g">페이지 이동</span>
+          <span class="pill g">초기화</span><span class="pill g">서울외 clarify</span><span class="pill g">멀티턴 맥락</span>
+        </div>
+        <div class="card" style="margin-top:18px"><div class="ct">E2E · 브라우저</div><div class="cd">풀스택 실데이터로 14+개 시나리오 검증, Sprint별 Reviewer Pass</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Canva 재현: 좌 메트릭 카드 3 + 테스트 추이 표(최신행 파랑강조), 우 시나리오 pill + E2E 카드. -->
+</body></html>

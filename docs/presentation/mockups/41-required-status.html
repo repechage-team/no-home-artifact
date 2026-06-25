@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><title>NoHome 목업 — 4-1 필수 기능 현황</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  table{margin-top:34px}
+  .done{color:#1D9E75;font-weight:800;font-size:20px}
+  td.fn{text-align:left;padding-left:18px;font-weight:800;font-size:18px}
+  td.note{text-align:left;color:#5F5E5A;font-size:16px}
+  .own{display:inline-block;border-radius:14px;padding:3px 12px;font-size:14px;font-weight:800}
+  .o-y{background:#FBF0D2;color:#8A6310}.o-b{background:#E6F1FB;color:#185FA5}.o-g{background:#E1F5EE;color:#0F6E56}
+</style>
+</head><body>
+<div class="slide">
+  <div class="f-top-y"></div><div class="f-top-b"></div><div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+  <div class="body">
+    <div class="title">필수 기능 구현 현황</div>
+    <div class="sub">과제 필수 요건을 빠짐없이 구현·검증</div>
+    <div class="rule"></div>
+    <table>
+      <thead><tr><th style="width:14%">ID</th><th style="width:26%;text-align:left;padding-left:18px">기능</th><th style="width:38%;text-align:left;padding-left:18px">근거</th><th style="width:10%">상태</th><th style="width:12%">담당</th></tr></thead>
+      <tbody>
+        <tr><td>F701</td><td class="fn">실거래가 수집</td><td class="note">매매·전월세 API 2종 적재</td><td class="done">✓</td><td><span class="own o-y">최민식</span></td></tr>
+        <tr><td>F702</td><td class="fn">실거래가 검색</td><td class="note">지역·아파트명·거래유형·가격</td><td class="done">✓</td><td><span class="own o-y">최민식</span></td></tr>
+        <tr><td>F712~716</td><td class="fn">회원 &amp; 로그인</td><td class="note">가입·조회·수정·물리삭제·로그인</td><td class="done">✓</td><td><span class="own o-g">전효준</span></td></tr>
+        <tr><td>F720</td><td class="fn">주택 정보 관리</td><td class="note">houses·house_deals 연계</td><td class="done">✓</td><td><span class="own o-y">최민식</span></td></tr>
+        <tr><td>지도</td><td class="fn">검색결과 표시</td><td class="note">Kakao Map geocoding 마커</td><td class="done">✓</td><td><span class="own o-g">전효준</span></td></tr>
+      </tbody>
+    </table>
+    <div class="cta">필수를 넘어 <span>AI 어시스턴트 · 전월세 · 관심지역 · 공지 · 관리자 권한</span>까지 확장</div>
+  </div>
+</div>
+<!-- Canva 재현: 요구사항 매핑표(상태 ✓ 초록, 담당 칩 색구분) + 하단 확장 강조띠. -->
+</body></html>
