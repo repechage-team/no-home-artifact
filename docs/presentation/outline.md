@@ -30,15 +30,23 @@
 ## 섹션 1. 기획 배경 · 목표 (추가 기능 중심)
 
 ### 1-0. 타이틀
-- 프로젝트명 `NoHome` + 한 줄 정의 + 팀명(이정헌·최민식·전효준)/발표자/날짜
-- **시각자료**: ⬜ 대표 화면(검색+지도) 스크린샷 1장
+- 프로젝트명 `NoHome` / 팀명 **패자부활전**(이정헌·최민식·전효준) / 발표자·날짜
+- **한 줄 정의 후보** (최종 택1 — AI 차별점 + 공공데이터 조회 함의):
+  1. (기준) **공공데이터 기반 실거래가 조회 및 AI 어시스턴트 서비스**
+  2. 공공데이터 실거래가 조회 + 자연어 AI 어시스턴트 서비스
+  3. 공공데이터로 찾고, AI로 조작하는 실거래가 어시스턴트 서비스
+  4. 공공데이터 실거래가 조회와 AI 어시스턴트를 결합한 부동산 서비스
+  - 부제(선택): "말하면 검색하고, 화면까지 움직인다"
+- **시각자료**: ✅ [mainScreen.png](../screens/mainScreen.png)(대표 화면: 검색+지도)
 
-### 1-1. 문제 정의 — 왜?
-- **메시지**: 실거래가는 공개돼 있지만 일반인은 쓰기 어렵다
-- 국토부 공공데이터 API는 XML 응답 + 법정동코드(LAWD_CD) + 계약년월(DEAL_YMD) 진입장벽
-- 매매/전세/월세가 서로 다른 API에 흩어짐 (RTMSDataSvcAptTrade / RTMSDataSvcAptRent)
-- "우리 동네 30평대 아파트 요즘 얼마지?"에 바로 답하기 어렵다
-- **시각자료**: ⬜ 원본 XML vs 우리 서비스 결과 카드 비교(스크린샷) — 대안 🟡 텍스트 대비 표
+### 1-1. 문제 정의 — 왜? ⭐
+- **메시지**: 실거래가는 공개돼 있지만 일반인은 **접근**이 어렵다 — 문제의 본질은 "접근성"
+- **페인포인트** (구체화):
+  1. 국토부 공공데이터 API는 **XML 응답 + 법정동코드(LAWD_CD) + 계약년월(DEAL_YMD)** — 비개발자에겐 진입장벽
+  2. 매매/전세/월세가 **서로 다른 API에 흩어짐** (RTMSDataSvcAptTrade / RTMSDataSvcAptRent)
+  3. "우리 동네 30평대 아파트 요즘 얼마지?" 같은 자연어 질문에 **바로 답하는 도구가 없음**
+- **AI 기능의 중요성 부각**: 단순 검색 UI를 만들어도 사용자는 결국 필터를 일일이 조작해야 함 → NoHome은 (강조) **자연어로 검색·필터·화면조작**까지 AI가 대신 → 진입장벽을 근본적으로 제거하는 것이 핵심 차별
+- **시각자료**: 🟡 원본 XML vs 결과 카드 텍스트 대비 + ✅ [gangnamguSearch.png](../screens/gangnamguSearch.png)(결과 예시)
 
 ### 1-2. 필수 기능 & 목표
 - **메시지**: 과제 필수 요건을 기준선으로 확정
@@ -59,42 +67,54 @@
 ## 섹션 2. 추진 계획 — 팀 전체 일정 & 개인별 일정
 
 ### 2-1. 전체 마일스톤 타임라인
-- **메시지**: 문서 기반 Sprint로 단계적 추진 (일정은 git 커밋 실측 **2026-06-12~06-24**)
-- 마일스톤 로드맵 (plan.md 근거):
-  - M0 계획·하네스 / M1 골격·DB / M2 실거래가 데이터 / M3 회원·인증 / M4 화면·지도 연결 / M7 제출
-  - Sprint 0 → 12까지 진행 (법정동 드롭다운 안정화까지), AI 챗봇은 별도 트랙
+- **메시지**: 단계적 추진 (일정은 git 커밋 실측 **2026-06-12~06-24**)
+- **중요 맥락**: Sprint 0~12는 **기존 원본 소유자(최민식)의 개인 작업 과정** — 팀은 이 프로젝트를 온보딩한 것. 팀 공동 기능추가 구간은 **6/18 이후**(회원·AI·심화)
+- 마일스톤 로드맵: M0 계획 / M1 골격·DB / M2 실거래가 데이터 / M3 회원·인증 / M4 화면·지도 / M7 제출
 - **시각자료**: ✅ [wbs-gantt.md](../deliverables/wbs-gantt.md) Mermaid 간트 + [no-home-deliverables.xlsx](../deliverables/no-home-deliverables.xlsx)(간트 시트)
 
-### 2-2. 개인별 역할 & 일정
-- **메시지**: 역할 분담과 담당 영역 (git 실측·PR 근거)
-- **담당 3인**: 이정헌(AI 어시스턴트, 06-12~24) · 최민식(공공데이터·검색·인프라, 06-14·06-22~24) · 전효준(회원·인증·지도·관심지역·공지, 06-18·06-23~24)
+### 2-2. 팀 결성 배경 & 개인별 역할 ⭐
+- **팀 결성 배경**: 각자 원래 페어가 취업해 **남은 셋이 팀 구성** → 팀명 **패자부활전**. 그중 **최민식의 기존 `no-home` 프로젝트를 온보딩 + 기능 추가**하는 방향으로 결정 (프로젝트명 no-home 유지)
+- **역할 분담** (6/12 회의록 기준, 대분류):
+
+  | 담당 | 역할 |
+  | --- | --- |
+  | **최민식** | 공공데이터 연동 + 카카오맵 출력 + 심화 기능 |
+  | **전효준** | 회원 인증 (세션 기반 → 토큰으로 변경) |
+  | **이정헌** | AI 챗봇 및 어시스턴트 + **팀장**(전체 일정·진행상황 관리·역할 분담, 발표자료 메인) |
+
 - **시각자료**: ✅ [wbs-gantt.md](../deliverables/wbs-gantt.md) 간트의 담당자별 스윔레인 + 담당·일정 요약표
+
+### 2-3. 발표·제출 요구사항 (회의록 메모)
+- **발표**: 15~20분 + **시연 3~5분 UCC 영상**(로컬 동작 실패 대비, YouTube 업로드)
+- **필수 산출물**: 요구사항정의서 · UseCase Diagram · WBS · ERD · API설계서 · Class Diagram · 화면정의서 · 발표 PPT · 시연 영상
+- **필수 스택**: Vue · MyBatis · Spring Boot / **채점**: 10항목(5·4·3·2·1)
+- (현황: 요구사항정의서·UseCase·WBS·ERD·Class Diagram·화면(스크린샷)은 확보 / **API설계서·화면정의서**는 미완 — 별도 작업)
 
 ---
 
 ## 섹션 3. 시장 분석 — 경쟁 제품/서비스 비교, 차별화 전략
 
 ### 3-1. 경쟁 서비스 비교
-- **메시지**: 기존 부동산 서비스 대비 위치 — 핵심 차별은 **자연어 AI 화면조작**
-- 🟡 비교 매트릭스 **초안** (⚠️ 타사 열은 일반 인식 기반 추정 — **발표 전 실제 서비스로 검증 필요**. NoHome 열만 구현 확정)
+- **메시지**: 위에서 아래로 갈수록 NoHome만 가능 — 핵심 차별은 **자연어 AI 화면조작**
+- 비교 매트릭스 (행 순서: 공통 → 부분 → NoHome 단독)
 
   | 항목 | NoHome | 호갱노노 | 직방 | 네이버 부동산 | KB부동산 |
   | --- | --- | --- | --- | --- | --- |
   | 실거래가 제공 | ✅ | ✅ | ✅ | ✅ | ✅ |
   | 지도 표시 | ✅ | ✅ | ✅ | ✅ | ✅ |
-  | 공공데이터 직접 연동·적재 | ✅ | ? | ? | ? | ? |
-  | **자연어 AI 검색·화면조작** | ✅ | ? | ? | ? | ? |
-  | 가입 없이 진입장벽 낮음 | ✅(검색) | ? | ? | ? | ? |
+  | **공공데이터 직접 연동·적재** | ✅ | ❌ | ❌ | ❌ | ❌ |
+  | AI 검색 챗봇 | ✅ | △ | △ | △ | △ |
+  | **AI 어시스턴트로 화면조작** | ✅ | ❌ | ❌ | ❌ | ❌ |
 
-  > `?` = 검증 필요(임의 단정 금지). 발표 시 실제 확인 후 ✅/❌로 확정.
-- 차별 포인트: 대부분 서비스가 검색 UI는 제공하나 **자연어로 필터·페이지·지도를 조작하는 AI 에이전트는 희소**
-- **시각자료**: 🟡 위 비교 매트릭스(검증 후 확정)
+  > 타사 값은 사용자 보유 근거 스크린샷 기준. △ = 부분 지원(검색 챗봇은 일부 제공). 발표 전 최종 확인.
+- 차별 포인트: 대부분 검색 UI·일부 AI 검색은 있으나, **자연어로 필터·페이지·지도를 직접 조작하는 AI 에이전트는 NoHome만**
+- **시각자료**: 위 매트릭스 + 🟡 타사 화면 근거(보유 스크린샷)
 
 ### 3-2. 차별화 전략
 - **메시지**: NoHome의 3대 차별
   1. **자동 임포트** — 사용자가 API를 몰라도 검색 시 데이터가 채워짐
-  2. **AI 에이전트** — 말로 검색·필터·페이지·지도 조작 (capability-driven)
-  3. **공공데이터 정합성** — 출처 보존 + 중복제거 + 멱등 적재
+  2. **AI 어시스턴트** — 말로 검색·필터·페이지·지도 조작 (capability-driven)
+  3. **공공데이터 정합성 + RAG** — 출처 보존·중복제거·멱등 적재한 **실거래 RDB를, 벡터 임베딩 없이 Tool Calling으로 조회해 근거 기반 답변**(structured retrieval 기반 RAG 구조)
 - **시각자료**: 차별화 3축 다이어그램
 
 ---
@@ -110,13 +130,13 @@
 - 5개 거래유형(매매/전세/월세/전월세/전체), 지역 3단계, 가격 이중 슬라이더, 정렬·페이징
 - 전월세 스키마 마이그레이션(deposit/monthly_rent/contract_term 등, dealMode 매핑)
 - 검색 = DB 우선, 부족분만 자동 적재 (구체 알고리즘은 섹션 7)
-- **시각자료**: ✅ [02-house-service](../diagrams/images/usecase/02-house-service.png) + [house-search-class.svg](../diagrams/assets/house-search-class.svg) + [house-erd.svg](../diagrams/assets/house-erd.svg) / ⬜ 검색 패널 스크린샷
+- **시각자료**: ✅ [02-house-service](../diagrams/images/usecase/02-house-service.png) + [house-search-class.svg](../diagrams/assets/house-search-class.svg) + [house-erd.svg](../diagrams/assets/house-erd.svg) + 스크린샷 [mainScreen](../screens/mainScreen.png)·[gangnamguSearch](../screens/gangnamguSearch.png)·[thirdHighPrice](../screens/thirdHighPrice.png)
 
 ### 4-3. 핵심기능 ② 회원·인증·개인화
 - 가입/조회/수정/물리삭제/로그인/로그아웃 — BCrypt, JWT(HS256) access·refresh, HttpOnly·Secure 쿠키, refresh 블랙리스트, 운영 fail-closed
 - **관리자 권한 분리**: `/api/members/search`는 관리자(`notice.admin-emails`)만, 일반회원 403
 - **개인화·운영(추가기능)**: 관심지역(`/api/interest-regions`, F-INT), 공지사항(`/api/notices`, F711) — 비회원 조회·관리자 CRUD
-- **시각자료**: ✅ [03-account-service](../diagrams/images/usecase/03-account-service.png) + [05-notice-operation](../diagrams/images/usecase/05-notice-operation.png) + [member-auth-class.svg](../diagrams/assets/member-auth-class.svg) + [member-erd.svg](../diagrams/assets/member-erd.svg)
+- **시각자료**: ✅ [03-account-service](../diagrams/images/usecase/03-account-service.png) + [05-notice-operation](../diagrams/images/usecase/05-notice-operation.png) + [member-auth-class.svg](../diagrams/assets/member-auth-class.svg) + [member-erd.svg](../diagrams/assets/member-erd.svg) + 스크린샷 [signup](../screens/signup.png)·[login](../screens/login.png)·[memberInfo](../screens/memberInfo.png)·[memberSearch](../screens/memberSearch.png)·[notice](../screens/notice.png)·[accountDelete](../screens/accountDelete.png)
 
 ### 4-4. 추가기능 ③ AI 어시스턴트 — 구현 ⭐⭐
 - **단일 엔드포인트 `POST /api/ai/assistant`** — LLM이 tool calling으로 질문/조작을 분기 (레거시 `/chat`·`/agent` 모드토글 제거, breaking change로 통합)
@@ -183,14 +203,15 @@ flowchart LR
     K --> L[내 정보 / 관심지역]
 ```
 
-### 6-2. 라이브 시연 (DEMO) ⭐
-- 시연 4단계 (상세: [demo-script.md](demo-script.md))
-  1. 지역+거래유형 검색 → 결과+지도
-  2. 가격 필터 조정 → 재검색
+### 6-2. 시연 — UCC 영상 (DEMO) ⭐
+- **방식**: **라이브 시연 대신 UCC 영상(3~5분, YouTube 업로드)** — 로컬 동작 실패 대비 (회의록 결정)
+- 영상 콘티 4단계 (상세: [demo-script.md](demo-script.md)):
+  1. 지역+거래유형 검색 → 결과+지도 ([gangnamguSearch.png](../screens/gangnamguSearch.png))
+  2. 가격 필터 조정 → 재검색 ([thirdHighPrice.png](../screens/thirdHighPrice.png))
   3. AI에게 "월세로 보여줘, 보증금 1억 이하" → 화면 자동 변화
-  4. 회원 로그인 → 내 정보
-- **백업**: ⬜ 녹화 영상 + 단계별 스크린샷
-- **시각자료**: ⬜ 라이브 화면
+  4. 회원 로그인 → 내 정보 ([login.png](../screens/login.png) · [memberInfo.png](../screens/memberInfo.png))
+- 음성: Clova 또는 육성 + 자막
+- **시각자료**: ⬜ UCC 영상(제작 필요) + ✅ 단계별 화면 [docs/screens/](../screens/)
 
 ---
 
@@ -264,11 +285,13 @@ flowchart LR
 - **시각자료**: 🟡 문제→원인→해결 3컬럼 표 + [ai-usage-report.md](../deliverables/ai-usage-report.md) §3.3
 
 ### 9-2. 팀 회고 & 사진
-- 👥 <!-- TODO: 팀 사진 삽입 (이정헌·최민식·전효준) -->
-- <!-- TODO: 개인별 회고 1~2줄씩 (Keep/Problem/Try 또는 자유 형식) -->
-- 잘된 점: 문서 기반 개발, 자동 임포트 UX, AI 차별화
-- 한계: 서울 한정, 서울 전체 검색 시 API 호출량, 좌표 정책
-- **시각자료**: 👥 팀 사진(플레이스홀더) + 🟡 회고 카드
+- **팀 메시지**: **패자부활전**이라는 결성 배경(남은 셋이 모인 팀)에도, 짧은 기간 안에 **명확한 역할 분배와 일정 관리**를 바탕으로 프로젝트를 성공적으로 마무리
+- **개인별 회고** (각자 1~2줄 작성):
+  - 최민식: <!-- TODO: 회고 -->
+  - 전효준: <!-- TODO: 회고 -->
+  - 이정헌: <!-- TODO: 회고 -->
+- 잘된 점: 문서 기반 개발, 자동 임포트 UX, AI 차별화 / 한계: 서울 한정, 서울 전체 검색 시 API 호출량, 좌표 정책
+- **시각자료**: 👥 팀 사진(플레이스홀더) + 🟡 회고 카드 3개
 
 ### 9-3. 마무리 & Q&A
 - 한 줄 메시지 재노출 + 깃/데모 링크 + 감사
@@ -276,12 +299,14 @@ flowchart LR
 
 ---
 
-## 발표 분량 가이드 (10~12분 기준)
+## 발표 분량 가이드
+
+> **회의록 요구: 발표 15~20분 + 시연 3~5분 UCC 영상.** 아래는 10~12분 기준 초안 — 실제 구성은 발표 시 가지치기/확장하여 조정.
 
 | 섹션 | 슬라이드 | 시간 |
 | --- | --- | --- |
 | 1 기획배경·목표 | 1-0~1-3 | 2분 |
-| 2 추진계획 | 2-1~2-2 | 1분 |
+| 2 추진계획 | 2-1~2-3 | 1분 |
 | 3 시장분석 | 3-1~3-2 | 1분 |
 | 4 개발결과 | 4-1~4-5 | 2.5분 |
 | 5 환경·구조도 | 5-1~5-2 | 1분 |
@@ -307,8 +332,11 @@ flowchart LR
 🟡 **본 구성안에 자동 생성됨**
 - 화면 흐름도 Mermaid (6-1) / 경쟁사 비교 매트릭스 초안·검증 필요 (3-1) / 테스트 추이 표 (4-5) / 3-tier 구조도(명세서 §2.1)
 
-⬜ **앱 실행해 캡처 필요(별도 단계)**
-- 검색+지도 / 챗봇 대화 전후 / 회원 화면 스크린샷, 라이브 시연 녹화
+✅ **앱 스크린샷 — `docs/screens/`에 확보됨**
+- mainScreen·gangnamguSearch·thirdHighPrice(검색+지도) / login·signup·memberInfo·memberSearch·accountDelete(회원) / notice(공지) / desc
+
+⬜ **제작 필요(별도 단계)**
+- UCC 시연 영상(3~5분, YouTube) / 챗봇 대화 전후 캡처 / API설계서·화면정의서 산출물
 
 👥 **팀이 제공**
-- 팀 사진, 개인별 회고 문구, 경쟁사 비교 `?` 칸 검증값
+- 팀 사진, 개인별 회고 문구(최민식·전효준·이정헌), 경쟁사 비교 타사 값 최종 확인
