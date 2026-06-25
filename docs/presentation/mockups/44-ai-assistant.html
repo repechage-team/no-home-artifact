@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>NoHome 목업 — 4-4 AI 어시스턴트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#555; display:flex; justify-content:center; padding:24px; font-family:'Nanum Gothic',sans-serif; }
+  .slide { position:relative; width:1280px; height:720px; background:#F7F5EF; overflow:hidden; color:#2E2E3A; }
+  .f-top-y { position:absolute; top:0; left:0; width:62%; height:14px; background:#F5C84C; }
+  .f-top-b { position:absolute; top:0; right:0; width:38%; height:14px; background:#82BEF5; }
+  .f-left  { position:absolute; top:0; left:0; width:14px; height:100%; background:#F5C84C; }
+  .f-right { position:absolute; top:0; right:0; width:14px; height:100%; background:#82BEF5; }
+  .f-bot   { position:absolute; bottom:0; left:0; width:100%; height:14px; background:#82BEF5; }
+  .body { position:absolute; inset:14px; padding:44px 60px; }
+  .title { font-family:'Jua',sans-serif; font-size:46px; letter-spacing:-1px; }
+  .sub { font-size:17px; color:#5F5E5A; margin-top:2px; }
+  .rule { margin-top:8px; border-top:2px dashed #C9C7BF; }
+  .cols { margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .h { font-family:'Jua',sans-serif; font-size:20px; color:#1F5A92; margin-bottom:12px; }
+  /* 분기 도식 */
+  .flow { display:flex; flex-direction:column; gap:10px; }
+  .node { background:#fff; border:2px solid #C9C7BF; border-radius:12px; padding:12px 16px; font-size:17px; font-weight:700; text-align:center; }
+  .node.ep { border-color:#3E8EDE; color:#1F5A92; background:#EAF3FC; }
+  .arrow { text-align:center; color:#888; font-size:18px; line-height:1; }
+  .branch { display:flex; gap:12px; }
+  .branch .node { flex:1; }
+  .node.ans { border-color:#1D9E75; background:#E1F5EE; color:#0F6E56; }
+  .node.cmd { border-color:#E0982B; background:#FAEEDA; color:#854F0B; }
+  .small { font-size:13px; font-weight:400; color:#5F5E5A; margin-top:3px; }
+  /* 우측 칩/박스 */
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { background:#fff; border:1px solid #B5D4F4; border-radius:20px; padding:6px 13px; font-size:14px; font-weight:700; color:#185FA5; }
+  .chip.y { border-color:#FAC775; color:#854F0B; }
+  .label { font-size:14px; font-weight:800; color:#5F5E5A; margin:16px 0 8px; }
+  .mini { display:flex; gap:12px; margin-top:14px; }
+  .mbox { flex:1; background:#fff; border:0.5px solid #D3D1C7; border-radius:12px; padding:12px 14px; }
+  .mbox .t { font-weight:800; font-size:15px; color:#2E2E3A; }
+  .mbox .d { font-size:13px; color:#5F5E5A; margin-top:4px; line-height:1.45; }
+  .cap { position:absolute; left:60px; right:60px; bottom:30px; font-size:16px; font-weight:800; color:#1F5A92; }
+  .cap span { color:#E0982B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="f-top-y"></div><div class="f-top-b"></div>
+    <div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+    <div class="body">
+      <div class="title">AI 어시스턴트</div>
+      <div class="sub">단일 <b>POST /api/ai/assistant</b> — LLM이 tool calling으로 질문/조작을 분기</div>
+      <div class="rule"></div>
+      <div class="cols">
+        <div>
+          <div class="h">동작 구조</div>
+          <div class="flow">
+            <div class="node">사용자 자연어 발화</div>
+            <div class="arrow">▼</div>
+            <div class="node ep">POST /api/ai/assistant<div class="small">LLM tool calling 분기</div></div>
+            <div class="arrow">▼</div>
+            <div class="branch">
+              <div class="node ans">질문 → 답변<div class="small">데이터 요약 (answer)</div></div>
+              <div class="node cmd">조작 → 명령<div class="small">프론트 실행 (command)</div></div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="h">제어 범위 & 핵심</div>
+          <div class="label">액션 6종</div>
+          <div class="chips">
+            <span class="chip">applyFiltersAndSearch</span><span class="chip">setFilters</span>
+            <span class="chip">paginate</span><span class="chip">selectItem</span>
+            <span class="chip">mapFocus</span><span class="chip">reset</span>
+          </div>
+          <div class="label">필터 9종</div>
+          <div class="chips">
+            <span class="chip y">지역</span><span class="chip y">법정동</span><span class="chip y">아파트명</span>
+            <span class="chip y">거래월</span><span class="chip y">거래유형</span><span class="chip y">정렬</span>
+            <span class="chip y">가격/보증금/월세</span>
+          </div>
+          <div class="mini">
+            <div class="mbox"><div class="t">returnDirect 패턴</div><div class="d">"답변 안 함"도 1급 선택지 → 오분류 구조적 완화</div></div>
+            <div class="mbox"><div class="t">단기 대화기억</div><div class="d">InMemory window 10, 세션 격리 (멀티턴)</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="cap">벡터 임베딩 없이 <span>Tool Calling으로 실거래 RDB를 조회</span>하는 RAG 구조</div>
+    </div>
+  </div>
+<!--
+Canva 재현 메모 (4-4 AI 어시스턴트)
+- 프레임·제목·점선: 공통 / 제목 아래 한 줄 부제(/api/ai/assistant)
+- 좌우 2분할(50:50): 좌=동작 구조 도식, 우=제어범위+핵심
+- 좌 도식: 발화→엔드포인트(파랑 #3E8EDE/연파랑 #EAF3FC)→분기 2박스: answer(초록 #1D9E75/#E1F5EE), command(주황 #E0982B/#FAEEDA), 화살표 ▼
+- 우: 액션 칩(파랑테두리 #B5D4F4/글자 #185FA5), 필터 칩(노랑테두리 #FAC775/글자 #854F0B), 하단 미니박스 2개(흰 카드)
+- 하단 캡션: #1F5A92 / "Tool Calling으로 실거래 RDB를 조회" 주황강조
+- 자산: 상세 클래스도는 ../diagrams/assets/ai-chatbot-class.svg (발표는 위 간이 도식 권장)
+- 폰트: 제목 210다락방(목업 Jua), 본문 나눔스퀘어(목업 Nanum Gothic)
+-->
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>NoHome 목업 — 3-1 경쟁 비교</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#555; display:flex; justify-content:center; padding:24px; font-family:'Nanum Gothic',sans-serif; }
+  .slide { position:relative; width:1280px; height:720px; background:#F7F5EF; overflow:hidden; color:#2E2E3A; }
+  .f-top-y { position:absolute; top:0; left:0; width:62%; height:14px; background:#F5C84C; }
+  .f-top-b { position:absolute; top:0; right:0; width:38%; height:14px; background:#82BEF5; }
+  .f-left  { position:absolute; top:0; left:0; width:14px; height:100%; background:#F5C84C; }
+  .f-right { position:absolute; top:0; right:0; width:14px; height:100%; background:#82BEF5; }
+  .f-bot   { position:absolute; bottom:0; left:0; width:100%; height:14px; background:#82BEF5; }
+  .body { position:absolute; inset:14px; padding:48px 64px; }
+  .title { font-family:'Jua',sans-serif; font-size:46px; letter-spacing:-1px; }
+  .rule { margin-top:10px; border-top:2px dashed #C9C7BF; }
+  table { width:100%; margin-top:40px; border-collapse:separate; border-spacing:0 8px; }
+  th, td { padding:14px 10px; text-align:center; font-size:19px; }
+  th { font-family:'Jua',sans-serif; font-weight:400; font-size:20px; color:#5F5E5A; }
+  td.item { text-align:left; font-weight:700; font-size:19px; color:#2E2E3A; padding-left:18px; }
+  tbody tr { background:#fff; }
+  tbody tr td:first-child { border-radius:10px 0 0 10px; }
+  tbody tr td:last-child { border-radius:0 10px 10px 0; }
+  .nohome { background:#FBF0D2 !important; font-weight:800; }
+  th.nohome { background:#F5C84C !important; color:#5A4410; border-radius:10px 10px 0 0; font-size:21px; }
+  .yes { color:#1D9E75; font-weight:800; }
+  .no  { color:#C9C7BF; font-weight:800; }
+  .partial { color:#E0982B; font-weight:800; }
+  .hl td { box-shadow: inset 0 0 0 2px #3E8EDE; }
+  .hl td:first-child { box-shadow: inset 2px 0 0 #3E8EDE, inset 0 2px 0 #3E8EDE, inset 0 -2px 0 #3E8EDE; }
+  .cap { margin-top:26px; font-size:19px; font-weight:800; color:#1F5A92; text-align:right; }
+  .cap span { color:#E0982B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="f-top-y"></div><div class="f-top-b"></div>
+    <div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+    <div class="body">
+      <div class="title">경쟁 서비스 비교</div>
+      <div class="rule"></div>
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left; padding-left:18px;">항목</th>
+            <th class="nohome">NoHome</th>
+            <th>호갱노노</th><th>직방</th><th>네이버 부동산</th><th>KB부동산</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="item">실거래가 제공</td><td class="nohome yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td class="item">지도 표시</td><td class="nohome yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td class="item">AI 검색 챗봇</td><td class="nohome yes">✓</td><td class="partial">△</td><td class="partial">△</td><td class="partial">△</td><td class="partial">△</td></tr>
+          <tr><td class="item">공공데이터 직접 연동·적재</td><td class="nohome yes">✓</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
+          <tr class="hl"><td class="item">AI 어시스턴트로 화면 조작</td><td class="nohome yes">✓</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td><td class="no">✕</td></tr>
+        </tbody>
+      </table>
+      <div class="cap">아래로 갈수록 NoHome만 남는다 — 핵심 차별은 <span>자연어 AI 화면 조작</span></div>
+    </div>
+  </div>
+<!--
+Canva 재현 메모 (3-1 경쟁 비교)
+- 프레임·제목·점선: 공통(11-problem과 동일)
+- 표 5행 6열, 행간 간격 8px, 행 배경 흰색 라운드 10px
+- NoHome 열: 헤더 노랑#F5C84C(글자 #5A4410), 셀 연노랑#FBF0D2 + 굵게
+- 아이콘: ✓=초록#1D9E75 / △=주황#E0982B / ✕=회색#C9C7BF (실제 Canva는 ✅/△/❌ 이모지 또는 아이콘)
+- 마지막 행(화면 조작) 파랑#3E8EDE 2px 테두리로 하이라이트
+- 행 순서: 공통(전부 ✓) → AI챗봇(타사 △) → 공공데이터(타사 ✕) → 화면조작(타사 ✕) = 점진 부각
+- 캡션 우측정렬, #1F5A92 / "자연어 AI 화면 조작" 주황강조
+- 주: 타사 값은 보유 근거 스크린샷으로 발표 전 최종 확인
+-->
+</body>
+</html>

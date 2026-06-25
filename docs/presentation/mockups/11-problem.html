@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>NoHome 목업 — 1-1 문제 정의</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#555; display:flex; justify-content:center; padding:24px; font-family:'Nanum Gothic',sans-serif; }
+  .slide {
+    position:relative; width:1280px; height:720px; background:#F7F5EF; overflow:hidden;
+    color:#2E2E3A;
+  }
+  /* 공통 프레임: 좌상단 노랑 L + 우·하단 하늘 */
+  .f-top-y { position:absolute; top:0; left:0; width:62%; height:14px; background:#F5C84C; }
+  .f-top-b { position:absolute; top:0; right:0; width:38%; height:14px; background:#82BEF5; }
+  .f-left  { position:absolute; top:0; left:0; width:14px; height:100%; background:#F5C84C; }
+  .f-right { position:absolute; top:0; right:0; width:14px; height:100%; background:#82BEF5; }
+  .f-bot   { position:absolute; bottom:0; left:0; width:100%; height:14px; background:#82BEF5; }
+  .body { position:absolute; inset:14px; padding:48px 64px; }
+  .title { font-family:'Jua',sans-serif; font-size:46px; color:#2E2E3A; letter-spacing:-1px; }
+  .rule { margin-top:10px; border-top:2px dashed #C9C7BF; }
+  .points { margin-top:48px; display:flex; flex-direction:column; gap:26px; }
+  .pt { display:flex; align-items:flex-start; gap:20px; }
+  .badge {
+    flex:0 0 auto; width:42px; height:42px; border-radius:50%; color:#fff;
+    font-family:'Jua',sans-serif; font-size:22px; display:flex; align-items:center; justify-content:center;
+  }
+  .b-blue { background:#3E8EDE; }
+  .b-yellow { background:#F5C84C; }
+  .pt-h { font-size:24px; font-weight:800; color:#2E2E3A; }
+  .pt-d { font-size:18px; color:#5F5E5A; margin-top:4px; line-height:1.5; }
+  .pt-d b { color:#3E8EDE; font-weight:800; }
+  .cta {
+    margin-top:40px; background:#EAF3FC; border-left:8px solid #3E8EDE; border-radius:0 12px 12px 0;
+    padding:22px 28px; font-size:21px; font-weight:800; color:#1F5A92;
+  }
+  .cta span { color:#E0982B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <div class="f-top-y"></div><div class="f-top-b"></div>
+    <div class="f-left"></div><div class="f-right"></div><div class="f-bot"></div>
+    <div class="body">
+      <div class="title">문제 정의</div>
+      <div class="rule"></div>
+      <div class="points">
+        <div class="pt">
+          <div class="badge b-blue">1</div>
+          <div>
+            <div class="pt-h">공공데이터 API의 높은 진입장벽</div>
+            <div class="pt-d">국토부 실거래가 API는 <b>XML 응답</b> + <b>법정동코드(LAWD_CD)</b> + <b>계약년월(DEAL_YMD)</b> — 비개발자가 직접 다루기 어렵다</div>
+          </div>
+        </div>
+        <div class="pt">
+          <div class="badge b-yellow">2</div>
+          <div>
+            <div class="pt-h">흩어진 거래유형 데이터</div>
+            <div class="pt-d">매매 / 전세 / 월세가 <b>서로 다른 API</b>에 분산 (RTMSDataSvcAptTrade · RTMSDataSvcAptRent)</div>
+          </div>
+        </div>
+        <div class="pt">
+          <div class="badge b-blue">3</div>
+          <div>
+            <div class="pt-h">대화형 화면 조작 경험의 부재</div>
+            <div class="pt-d">기존 서비스는 데이터 질문엔 답해도, <b>대화로 필터·페이지·지도를 직접 조작</b>해 주지는 않는다 — 결국 사용자가 일일이 만져야 한다</div>
+          </div>
+        </div>
+      </div>
+      <div class="cta">그래서 NoHome은 — <span>자연어 대화</span>로 검색·필터·페이지·지도까지 조작하는 AI 어시스턴트</div>
+    </div>
+  </div>
+<!--
+Canva 재현 메모 (1-1 문제 정의)
+- 캔버스 1280x720, 배경 #F7F5EF, 프레임: 좌상 노랑#F5C84C(상단 가로 62% + 좌측 세로) / 우·하단 하늘#82BEF5, 두께 14px
+- 제목 "문제 정의": 210 다락방(목업은 Jua 대체), 46px, #2E2E3A, 좌상단 / 아래 회색 점선 #C9C7BF
+- 페인포인트 3행: 번호 원형 42px 파랑#3E8EDE·노랑#F5C84C 교차, 흰 숫자 / 제목 24px 800, 설명 18px #5F5E5A, 강조어 파랑
+- 하단 강조박스: 연파랑 #EAF3FC, 좌측 막대 #3E8EDE 8px, 텍스트 #1F5A92 / "자연어 대화" 노랑강조 #E0982B
+- 본문 폰트: 나눔스퀘어(목업은 Nanum Gothic 대체)
+-->
+</body>
+</html>
